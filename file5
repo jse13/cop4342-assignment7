@@ -1,0 +1,486 @@
+Return-Path: <nolenet-bounces@lists.fsu.edu>
+X-Original-To: langley@mail2.cs.fsu.edu
+Delivered-To: langley@mail2.cs.fsu.edu
+Received: from mail.cs.fsu.edu (mail.cs.fsu.edu [128.186.120.4])
+	by mail2.cs.fsu.edu (Postfix) with ESMTP id 21394480096
+	for <langley@mail2.cs.fsu.edu>; Mon, 21 Nov 2016 09:55:43 -0500 (EST)
+Received: by mail.cs.fsu.edu (Postfix)
+	id 5DB7FF364E; Mon, 21 Nov 2016 09:57:05 -0500 (EST)
+Delivered-To: langley@cs.fsu.edu
+Received: from smtpin.cs.fsu.edu (smtpin.cs.fsu.edu [128.186.120.196])
+	by mail.cs.fsu.edu (Postfix) with ESMTP
+	id 4F9E9F3583; Mon, 21 Nov 2016 09:57:05 -0500 (EST)
+X-Spam-Status: No
+X-FSUCS-MailScanner-Watermark-fsucs: 1480344942.42099@gNrya+lOw0DmfLWsATrFFQ
+X-FSUCS-MailScanner-From: nolenet-bounces@lists.fsu.edu
+X-FSUCS-MailScanner-SpamCheck: not spam, SpamAssassin (cached, score=-1.789,
+	required 5, autolearn=not spam, AWL 0.13, BAYES_00 -1.90,
+	DKIM_SIGNED 0.10, DKIM_VALID -0.10, HTML_MESSAGE 0.00,
+	RCVD_IN_DNSWL_NONE -0.00, RCVD_IN_MSPIKE_H3 -0.01,
+	RCVD_IN_MSPIKE_WL -0.01, SPF_HELO_PASS -0.00, SPF_PASS -0.00)
+X-FSUCS-MailScanner: Found to be clean
+X-FSUCS-MailScanner-ID: uALEtbUr014783
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (mail-co1nam03on0066.outbound.protection.outlook.com [104.47.40.66])
+	by smtpin.cs.fsu.edu (8.13.1/8.13.1) with ESMTP id uALEtbUr014783
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 21 Nov 2016 09:55:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
+ s=selector1-lists-fsu-edu;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=Ym3BQnajSVLtTo+u0XyrJ0tdBnqpYmd399UgaE6vNJ0=;
+ b=ixl9ci6lgEwbljjC+ZgsGUxCQfeavt4mT25p5grtsU1lnG0Z9W5ITOQMqo1UpuBq24gk69guuG4KgCi1DZUf7uDc2b34PiK1Hs8OTeIm0xLs+PkVx2DUODqmhOPN9dZBwlypXflnnDliKVf2jZe1+dha+8YX9t6URPdPkWR6ZfA=
+Received: from BY2PR02CA0113.namprd02.prod.outlook.com (10.163.44.167) by
+ BLUPR02MB1620.namprd02.prod.outlook.com (10.162.212.158) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.734.8; Mon, 21 Nov 2016 14:55:31 +0000
+Received: from BL2FFO11FD013.protection.gbl (2a01:111:f400:7c09::106) by
+ BY2PR02CA0113.outlook.office365.com (2a01:111:e400:5261::39) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.734.8 via Frontend
+ Transport; Mon, 21 Nov 2016 14:55:31 +0000
+Authentication-Results: spf=pass (sender IP is 146.201.107.138)
+ smtp.mailfrom=lists.fsu.edu; hep.fsu.edu; dkim=none (message not signed)
+ header.d=none;hep.fsu.edu; dmarc=bestguesspass action=none
+ header.from=fsu.edu;cs.fsu.edu; dkim=none (message not signed) header.d=none;
+Received-SPF: Pass (protection.outlook.com: domain of lists.fsu.edu designates
+ 146.201.107.138 as permitted sender) receiver=protection.outlook.com;
+ client-ip=146.201.107.138; helo=lists.fsu.edu;
+Received: from lists.fsu.edu (146.201.107.138) by
+ BL2FFO11FD013.mail.protection.outlook.com (10.173.160.221) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.5 via Frontend
+ Transport; Mon, 21 Nov 2016 14:55:29 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:;UpperCasedChecksum:;SizeAsReceived:3864;Count:45
+Received: from lists.fsu.edu (localhost [127.0.0.1])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uALEtROX013896;
+	Mon, 21 Nov 2016 09:55:28 -0500
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-co1nam03lp0017.outbound.protection.outlook.com [216.32.181.17])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uALEtP0u013879;
+	Mon, 21 Nov 2016 09:55:25 -0500
+Received: from BY2PR02MB363.namprd02.prod.outlook.com (10.141.140.148) by
+	BY2PR02MB362.namprd02.prod.outlook.com (10.141.140.143) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.734.8; Mon, 21 Nov 2016 14:55:23 +0000
+Received: from BY2PR02MB363.namprd02.prod.outlook.com ([10.141.140.148]) by
+	BY2PR02MB363.namprd02.prod.outlook.com ([10.141.140.148]) with mapi id
+	15.01.0707.020; Mon, 21 Nov 2016 14:55:23 +0000
+From: "Meyer, Hans" <Hans.Meyer@fsu.edu>
+To: "uitm@lists.fsu.edu" <uitm@lists.fsu.edu>,
+	"nolenet@lists.fsu.edu" <nolenet@lists.fsu.edu>
+Thread-Topic: Meeting Notice: FSU IT Professionals Forum | 01-Dec-2016 |
+	Special topic: New e-mail use policy
+Thread-Index: AdJEBRGy/y1ZEQjpRyG4C+JV3M9beAAAjakQ
+Importance: high
+X-Priority: 1
+Date: Mon, 21 Nov 2016 14:55:23 +0000
+Message-ID: <BY2PR02MB3637A348D379615F3F879489CB50@BY2PR02MB363.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.fsu.edu; dkim=none (message not signed)
+	header.d=none; lists.fsu.edu; dmarc=none action=none header.from=fsu.edu;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [146.201.110.251]
+X-Microsoft-Exchange-Diagnostics-untrusted: 1; BY2PR02MB362;
+	7:TAY3pKz8jH7Q5TiIMJQRGim5HYXCnoxfOusJEgH9ZHVZVElOZ7mAeAyHT01oBKTxyA7FyStjFQlgRBzRv5a03vItnRfxHZeXZ4u8782DqKX02u9kTuv+1bVb/puXZIyttnz80hWtpkImFcux6voklFlBeKo6SS5JVfcfO921XNqGLTn4ZHdPQHE9MMvVCBpkxYXNKrt2kbNPbP4LiBBGZ6HJglUn3Wxo+3NakXrrNL99ZQNIbkVXrWmmdrvK2wdGzJaB90CSDQfCi8HuZstzhBsdumLC/H1DfIoCRlQILnxtRRxOzHP4Xfx5AKE52qrkXO+KEyrUBc1hcmU5hjK35Rdcyl/G0Efy3Qi45LxC3Xw=
+X-MS-Office365-Filtering-Correlation-Id: 7a45f55a-b246-4265-d332-08d4121e6ff5
+X-Microsoft-Antispam-Untrusted: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:BY2PR02MB362;
+x-exchange-antispam-report-test: UriScan:(129945304726314)(21748063052155);UriScan:(129945304726314)(158342451672863);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(9101524098)(601004)(2401047)(8121501046)(3002001)(10201501046);
+	SRVR:BY2PR02MB362; BCL:0; PCL:0; RULEID:; SRVR:BY2PR02MB362;
+ BCL:0;PCL:0;RULEID:(102415395)(6040307)(6045199)(6060326)(601004)(2401047)(5005006)(13017025)(13018025)(8121501046)(13024025)(13023025)(13015025)(10201501046)(3002001)(6041248)(6061324);SRVR:BLUPR02MB1620;BCL:0;PCL:0;RULEID:;SRVR:BLUPR02MB1620;
+X-Forefront-Antispam-Report-Untrusted: SFV:SKI; SFS:; DIR:INB; SFP:; SCL:-1;
+	SRVR:BY2PR02MB362; H:BY2PR02MB363.namprd02.prod.outlook.com;	FPR:; SPF:None;
+ LANG:en; 
+SpamDiagnosticOutput: 1:99
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR02MB362
+Subject: [Nolenet] Meeting Notice: FSU IT Professionals Forum | 01-Dec-2016
+ | Special topic: New e-mail use policy
+X-BeenThere: nolenet@lists.fsu.edu
+X-Mailman-Version: 2.1.15
+Precedence: list
+List-Id: IT Professionals list <nolenet.lists.fsu.edu>
+List-Unsubscribe: <https://lists.fsu.edu/mailman/options/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=unsubscribe>
+List-Archive: <https://lists.fsu.edu/mailman/private/nolenet/>
+List-Post: <mailto:nolenet@lists.fsu.edu>
+List-Help: <mailto:nolenet-request@lists.fsu.edu?subject=help>
+List-Subscribe: <https://lists.fsu.edu/mailman/listinfo/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=subscribe>
+Content-Type: multipart/mixed;
+	boundary="===============4366862663134330215=="
+Errors-To: nolenet-bounces@lists.fsu.edu
+Sender: Nolenet <nolenet-bounces@lists.fsu.edu>
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: BL2FFO11FD013.protection.gbl
+X-Forefront-Antispam-Report: =?us-ascii?Q?CIP:146.201.107.138;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10?=
+ =?us-ascii?Q?009020)(7916002)(2980300002)(438002)(199003)(156002)(176002)?=
+ =?us-ascii?Q?(6262002)(37854004)(44134004)(30584003)(189002)(2900100001)(?=
+ =?us-ascii?Q?92566002)(9686002)(33656002)(19625735002)(15395725005)(10788?=
+ =?us-ascii?Q?6002)(77096005)(1720100001)(189998001)(9036002)(66066001)(10?=
+ =?us-ascii?Q?6466001)(5001770100001)(50986999)(230783001)(54356999)(89122?=
+ =?us-ascii?Q?001)(109096001)(6506003)(78456001)(606004)(88552002)(9928600?=
+ =?us-ascii?Q?2)(81686999)(90282001)(47976999)(76786999)(3846002)(10283600?=
+ =?us-ascii?Q?3)(575784001)(6116002)(5660300001)(74316002)(626004)(8432600?=
+ =?us-ascii?Q?2)(15198665003)(7696004)(19810500001)(7736002)(89386003)(270?=
+ =?us-ascii?Q?700001)(512874002)(122556002)(2906002)(512954002)(4610100001?=
+ =?us-ascii?Q?)(7906003)(76576001)(7416002)(356003)(2476003)(7576002)(3873?=
+ =?us-ascii?Q?0400001)(2171001)(8666005)(87936001)(246002)(2501003)(260700?=
+ =?us-ascii?Q?001)(8676002)(7596002)(76806002)(146002)(75432002)(8936002)(?=
+ =?us-ascii?Q?2420400007)(15650500001)(7059030)(24616003)(10090945008);DIR?=
+ =?us-ascii?Q?:OUT;SFP:1101;SCL:1;SRVR:BLUPR02MB1620;H:lists.fsu.edu;FPR:;?=
+ =?us-ascii?Q?SPF:Pass;PTR:lists.fsu.edu;A:1;MX:1;LANG:en;?=
+X-Microsoft-Exchange-Diagnostics: 1;BL2FFO11FD013;1:ggMUyO4sqZ+5ZpOjWLiIIbquDQJIv3uy6K//8sIyuiC4g/wpBUx8idYLy+RazgS+TQIykuGukGZGht5sI9GeOpgrXiq6LmRoAfjxq975/i50ZBsytYg9+N+UvDXK2XdO4MRx4il7qbNwQ6O9PqxlrsAr+sm5wASnrvDbXg3aAfmAHx3cFPhBTsG4HZY14ivVx51ItU0g3c4PB6SdUhFH1eiq7FlyGu9Gkv5QmrL8V0EighoaA9Up3vKtgKvo30h7EDiLJJQhlzhWL1OuPjrDw9Hdmh/cTBEDCMVKuYzVydVF1CAqsTFVPRZwKaSuTyuKWyjavvIG3RgHdvkScvhSSkr/lCY4HFwXnLOSUbRpnlM6KdfozD+aR4wZ7d7pJbnUTAUGhbH4p8imrkcFe7NbN/cnzZS2Fz/yJnIBqQWfa/nzFB2A+Gpg8eF7F27Rzx2sqLm5qBwndRuYxZjz9rY7VnWpY0YAOc5GSz6lAa+vPi5QZ7Qek9psWbsYvrjHJlAiEcoSi+ySErm9/9VJX/T0QHMmCYbs+Q8gfzgNL7Y3HPzN4DVGJ9Hu4KFiq1EW2s+6IQFBgjgtT6eha6qcI8Pm3TnIQ0LfM3MQYeU+RJPxfGE=
+X-Microsoft-Exchange-Diagnostics: 1;BLUPR02MB1620;2:eQlckFQoXw5Q8B4I94/roUUrDnH1VCwtljftpl3z4PvQPeKywXqZn2tuqobGYUMcAgk4MZFBsYgXbm/3kz0Xs0p33vUoBdO6R7McV2nMw4bcjEpqXTe4+XTRve6u91BHeqyW4UtxGuNKvN29lsfdX0JlLWWU0XJUb+mxk3a7Lxk=;3:H3LrrqTBYDcRf61v+XfMXyny0w9UUJt8RKZwwRCio63P6b41jDwhXUlK6qyOyn37KA64KYFYUf6yFlE9oAGkfp3WbEd3NKABUPHEL0l522icJME8p9e5Lh3LRtT6BwetI5ojBiELYwjfAWwd1JsrrEbURFN3djanrkwGlZvAEyFAFGz78PUoUEXnDegku/SS+UP3GE8IA64Ma9iNALtVc3TeWNmyzw+x3kn1KLdUylXyVUcsr/S2bYYg75dl4M5mfq3dgEK8mmCU9qAxR3KXWN5v8QPXyba1xepgt6uhd0gMPKUhkQZR670VVkPx28z95AXcrmkSpHeUQjKFzrJK3Q==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:(22001)(421252002)(8251501002);SRVR:BLUPR02MB1620;
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BLUPR02MB1620;25:Xr2V4tOkF6Xc+p3zWRyk3fKWJPsfzlvnyAniMnfnw?=
+ =?us-ascii?Q?ZvVtAPZ/ktTlqvGZZ9cwMCkfxZD45F5PbzN2stLVPW1oxegT1iIXPaHDDUb0?=
+ =?us-ascii?Q?m2ebTP0V92XmV4ZKd+llAQLnbblW1js4clVITjBsy3xCjD/6SgEIyXWytcdt?=
+ =?us-ascii?Q?2E8oaaYTKnTTcGoifuOiWhn/c8U+nw9UEUfB7ol4K5HfdyPC89P+BZIbVVGX?=
+ =?us-ascii?Q?oqLSxO+6UxB4YqW85X9T+7Nefyu/2mGaW+AeHJswFfntc0GFEyKL9C3ngB9H?=
+ =?us-ascii?Q?u6s6OPGtuR9SFLg9Y4zWzLAoVe+8q4Ef72dC5VdvUV6ChQalorLkpq/WRfl9?=
+ =?us-ascii?Q?kxnm/5LMpWva/YS6GNI5WcD2guMsDhG31SAQWQ50+EeQEjCrLafVwJqz+js6?=
+ =?us-ascii?Q?XbjU0XhCPGGxxXwM2qU7WZP6fo7kjyueYkoSxJDpUfc22jhHjeiVWuSwvQCs?=
+ =?us-ascii?Q?Kyn8zM9Ra1uToj0Xa8UHmzcDP9BVE//DMOsXK7BtnYcH4l/DsrRIq1bBQBdq?=
+ =?us-ascii?Q?flBjqmO4yu7aEMvVhIqh1G4VwGDmNcKDEwU8Q6sMJY1tRVIzJAi8Xpr5+IHJ?=
+ =?us-ascii?Q?zQlBrGD0vLxuzZXQ5ySr+BCpyJBE16xhVZKvV0l1JiwNUzfYLCwvd2Ma1mGA?=
+ =?us-ascii?Q?iw0h6hXkvaQMz/gfWd9orsXRnDviQzIeuACQwCa8lK98gnTLWC3K2mRylaEc?=
+ =?us-ascii?Q?+4PAqF4tIcPDY830zE04SsICpJ89XkGSSIIhvgaNRGY5Ar24lH5Dg9IT1S0v?=
+ =?us-ascii?Q?l8P9Y5ziuXYacj5VQZA7eCNLeY4WcfRWTxc3Aqh8NryXyGyzun9KSBZD639m?=
+ =?us-ascii?Q?vbTaCLMjcJiBQaWh0fEs6l7vNn6yiRYPQom4GFBWWDlnASPr3obhmxZl8MZ8?=
+ =?us-ascii?Q?YIBvEUAgPsSCeKK7nsBVbpIcK6cZBJyMIEWYBnwZmcppDYpAxg7vgUKnrW27?=
+ =?us-ascii?Q?9CNaD+RiCgaQGk159ozKQOseZn/dphSZIIf4kQy8FWnkTSWYcuqcsI7eEQ6I?=
+ =?us-ascii?Q?dOjvEE0nFhycGsmoFeAHyUrM+d9sbb7MXqxj93/wI9/nbJGILkp/teGaY9HG?=
+ =?us-ascii?Q?tjIOIQG/5IDqfmdAGduIFQifh47Q3sfS007XTKn5z87mbrDFToOgBrTBXc8s?=
+ =?us-ascii?Q?Tyn+dvH/6MYbPxDoF8jxPow09hO4bQqQUFSWwWDbOr0XZkTMP5Ejc5lCfbPs?=
+ =?us-ascii?Q?vywACX0nn9Dm6U=3D?=
+X-Microsoft-Exchange-Diagnostics: 1;BLUPR02MB1620;31:c30rowlC9QrMKbp7mvWVrhBMrhUBvxJM46fKO2ZSX6MtUdhHiJ0Y2PAzUCs3LTtsqSt4p2gRT90Jnbfo4Gcf+iy3CcRvbgaamZ7w2L8zYVx2hCA0SgKZ7+OVxtv7K06QU9U+/mzk9uhnvVFg5n1BuiXU1EgpWs85D2p69X7DBFW2kENA6iAaWEBTrRN8quSbYtxEkzfJV0MtMpIjIbax3LwkgE6phGla9X9NRRrUQQTaLYirgsSw90ASiNrbfGLU/YlOhCfFLHR6apL9uAjOMZ3ZRzkRfiEESsQZnOvCPlI=;20:8WFKzMNq1VWNub7DwaiEWjfv7rRZkGr8sDgGsLamsKaRehSA0p+35XLBNorG7slTjjyoJAojwvgJQgNmiwHNj0IDCDlIqR8YQg8v/SCEtoledUCJA8y3JScantQkqmcKQWKvj5yldpqrrH8cr/PqCPfB2oWXUGzCkeD0Sf0SSuv/VjQjG/HLg1E4qlBOlOhWx3jTgzIWTl0V17SvS9j/WGudwO1Dlq4nVE3Qf5e8TJ5rmDvpisqa5ZdGefACZV+fxsW3H1pQ4cN/cyFZHfdbvOe/A4SMTUG8pvJIa8XDvWG2KytF2nmgEtKcY15WiOpzcrmzvLUpPK6AN+EoTOzVbHkGnPn3KEDTxTC9gZ/+8fKD74piyVjcb29G4y9Oc9uJUdFQ9iFgLvpQlT8PUL0sVgMBZ2mZ1aS/p2Z/dDBeO/mCsUHtpTEqOcqn91zYVbA306ixNEKgN1B2pn0pCS6qYqhF3LyyqAP/2IdR3vC60alV+mFaBkdPmwOA3Cj659nJXQ3AOey5wBK9imf2As987hJDOoYkcRwswzTJwplZI4JdQXO5fvD9go+OBxjolKl6pm8iaQMZud/5JVhIc5kEXyh9ebNhWRv6WOnDtpvjMCw=
+X-Microsoft-Antispam-PRVS: <BLUPR02MB1620C814EA6D0C204522C8C5A6B50@BLUPR02MB1620.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1;BLUPR02MB1620;4:0GKFN+YD1esO08HhwTUXlsYFOGvPdZDKkc7WS3x1Q1GrhwoQvgDnt4Klkv88ficw1wTpkZLGeK+Ev8DMFRiZUd3EXXCYTdiFsB5i4k9KSC7oRjdw730a22MvfVu9cZsyitFHJyW6pQafk18UTLTlBkqd/v1qfiToLEiN4Zfce4m3Xmyn9HYaYcmPYEWnXWGfCoVMNNJx7XM3u4lKJrvA38rBri6tw9n2yjsYg+gu+CNdso4NWbiVSUl+On3id6pTr+rfQw8ZJxCMjCiGT1uEXi1BNNQpWoe8F5fUoNrlMO4HbfSJv98VZEMkWBHXwEWiHhOdEHJvpE7XB1eIuW3EOcAbeepDwY+xcgOE51dNVW5w3agB7vuTzPanMJdxNRc/hKpGJ0S6D2spnv4rGHff9BBxExJWruL4vDFmh8jgyoSppcl7JCD36VtRyDJ/zripm++vhElwtSb3792+nUJAYxNlNMyHqg1FixcWe58wuaqVRj7oJcYcJblyvGkRqqujvfgCcYRCmMF548jCiv2iWvwLcBpEBMNqIrb6a3UGzYKdcvIMxCeiqlby301UTJd7pCYCm35utGflPVwdZlECbXUyrk3hqE+EtAR8GobsScbo3/9bcjLTAaL6XeqnkxoFETDieP6USzjX9WmbIxOy0Gte0533c/pEiCOGWjFhQGg=
+X-Forefront-PRVS: 01334458E5
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1;BLUPR02MB1620;23:lfB++cukfTeQFHrrVRm75VCWhbmilGH9XOAI/uviX?=
+ =?us-ascii?Q?gijyS+iO88IsIUdgH6US+QP8CP30chU7Oh2pcZ/f3YcxjVkhlxVf8xExX/q5?=
+ =?us-ascii?Q?TbMr7vhK5Al51s5mEUl+kQaHkqE2gwaNGxoCq0PJWB08/mVyTazNTAUGeS8N?=
+ =?us-ascii?Q?PBgEFktEzLM3gytEyOKIT7caDKT8O5PR8xJAo3R7eQljTKgmPV7dcbxyKbhM?=
+ =?us-ascii?Q?hVCGyh4aZx4iTHeogHy+esZOKLECnmMJlO1guVO4GFxVfNgDD/58eFyF0wR7?=
+ =?us-ascii?Q?puTWRBknzxgSA1eTvLa2JMQz7KodDZWKjwKepmO9iu38vQj0S2L2ATy7oaP1?=
+ =?us-ascii?Q?VQfrNyAazbHh5OzO50M8ulieBlgpSreeRTw3feaK3gfJimf2+Ssv9ETPKE87?=
+ =?us-ascii?Q?OlqV9Pyf9qKBlwQS94I4mc1BNc+D6vgVATFQq3kAtEgGt4I2JHorwK9Gx2Kd?=
+ =?us-ascii?Q?+f8OfZtNkl46ZgSpMvAVyHIUQ/BS9B6ZhUU7Mh8/Y9ytsiI8Q/K9CEp0ypGX?=
+ =?us-ascii?Q?ncq9wAsmliXUphUGy6YvqHiahUukgYNNalYVZdUS4bAZv/uYU8oYtphYklAX?=
+ =?us-ascii?Q?8XZP7QqjhxHfuvYDVBaUrmmf0QN3SihFkP91B1jSp8XAxVXmNEm5rrikVAIn?=
+ =?us-ascii?Q?3XR3UttxopYLNH0pYkETXsXnxg3/vhCm8S+PbDnUK6oAcjZHqji39j4ZcWEG?=
+ =?us-ascii?Q?S0Z+olCjzfyzJqsTOjzgYUTyrpEqb0eSzbImg2Co8I1ATtVg+JILyuz6cAgM?=
+ =?us-ascii?Q?ANFJyCuIjQE8t7MyRLEgxX7q3utXfnPTX1ew07IFd6WG2tXkHX7MyL1W9ORk?=
+ =?us-ascii?Q?tdyAwafz7AM3H64kcCBHkr1opXPRGQjRZanjQClkDd7uJ6szj6JgQbIQWvGg?=
+ =?us-ascii?Q?SJqDv31bvTdnW3CNjkjsIks5UbnzjX1uD+HGzeBBgMl3Oy11LRLip0lhawat?=
+ =?us-ascii?Q?1uhnB5r2SqtsxOcrRDF4LYN/+u5IKnRoBDo3CLfaCO+WsCxDjB6tKbCwzqll?=
+ =?us-ascii?Q?vm1/7ZjvgyeiK/GAjtLP6P6Nx8/PtYdhS9R3OSMzkOqHttm2Er1U16CncJsm?=
+ =?us-ascii?Q?5c1RlIpsbN1iQVKeTSl45biLp3hccgN6ZQWH46evjpx84g6kB+61RwnSB9A3?=
+ =?us-ascii?Q?f00JMuPbLnG5bJCGdBmBQ39XKut0d9R7oR8JBev5aw9gdd0/NWCMjpGd90Fs?=
+ =?us-ascii?Q?Jdlv8wNqMQobKehH6CJuoLuXGGfyQ0V/Qk7mVOOKchffoBMrIH8kbVC4N+/s?=
+ =?us-ascii?Q?9sijqdVjGwACDF2zJMTbKYT5cQMpsHF/wgPaZvNx+j/t9DwQzsMc0G+J8NeI?=
+ =?us-ascii?Q?jANpCle2evZUitziOPU/6d/3AxWgzLKbvlAA6+I6HckvRARF+L+Tx3aWrxhp?=
+ =?us-ascii?Q?H+D4dA3jpsM/BQpKrTcHeuMEtByPaQ8AOrwRYw1CRYOZX6pJ4C+aw8PE4dj/?=
+ =?us-ascii?Q?bZccl0s/e/wlY2T0YHZXJz1DnJtLXuCzW7rXUukXlvnG/kZhEBg+G/BI7x7A?=
+ =?us-ascii?Q?rzmhTl1od6BzYGsk6XmoX87oyCpucWh5hpgUTM7D9oTBYjZejdC88DxsDhhv?=
+ =?us-ascii?Q?yoEOTLqBdpVT5FsZMLNKGAm0wFmoB3bhHp2GWXmUHBc0dRRfbkuCC4oLIaRp?=
+ =?us-ascii?Q?HScJ1UdWS9mUgnJJFkmkRhgVMEMUBy/NkMloYRnCNnkFc/us8o1uYZvvE7Pt?=
+ =?us-ascii?Q?43MjJafUyA2gHmYT9lm2qCHzPUK9pWUw4JbsmVPpjJCiUpQ09hWz6qGDQ2N8?=
+ =?us-ascii?Q?R5iZMXW7lGci84izYKyz4AzPPIz+NpuREUk2ALl2ybZCI7jtBAbYHhYJDwbp?=
+ =?us-ascii?Q?+QACtUHgZQC2SbCPAwASkr5PuEnlcYJNapAJ82XzyIlLCnVeUSTV+1a/9piG?=
+ =?us-ascii?Q?YHfgyg6/owxlrkn1+bgISCRHaH2jsGLt2T1cw=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 1;BLUPR02MB1620;6:9DcehHaiQYzHCaTtpIN2s6/STFuZ8rvI0w+pbdCEkMiMe8l8RV5jIyrWBjrtHM2EcwXtdsXwRFX0Ti44hPi0SRXijj1W2IJwJKnF3z4VUBHS4N2rPeOGW3ZEzio9UZUkStmXEdSy7K9H/KQ3eNEnSz+S/Kg6tb6DZirkTzGHTm3vPrH1jc5+VcMC6tH7Jh5dv211jQSjEhORQiYxjVZNodhbmq1w0zj0bO5r6RO8IdNxalPE3K9gMjp/3Ne6fNRbEQqjrq4wSWDEa2YdQH/wUY1Awmjsa+x3Y1bg8blFrfL74J89/7ADZiG8Qh/vF0ZCeo2sKHWBfp7U9sxeI1hpMp1mQb5pZUvoiaiMKWG6mNw=;5:8/sZZ7iW/p46F/044OGen6GOKbSBoL2IW7NIratS8DsXnB+7SBswSh7/dcTkEQ5VEH23cNKytTFWpsAgysGtQ5oXsVO4PKVrE60sZgCa+BohNCN++//6y3r3B8/s+AweLcY9JQLrZ6f+e+P5RJN49Hfm+NQS0MHg3eB0BysM3nA=;24:qOD7zc6CbbhhFabtg+kqSni6nQM994wS1KZ7UCLSh6H0OkcXIy3xc7u7KyiF4WKFnactfmjDCaeI4nycd58mRGFKjmNak5+CQG1vb2IrqdQ=
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1;BLUPR02MB1620;7:cN8V9TPULd9/p9Zs5C9xJShNWeNTxXMQCShjbF3cRGe0jBHlcbECLVeujyW+3CcmHGCg6SxBogUrLpzJJdMTD0Utl4RRIWSdjfZyWR249cqArN3ag+jFS6Rs3GJD27wCk6ngAPy3VKWls8Qf0oRWOnBSUfM6SDHOdeU0O+Py4+UnzGI3DpffPqNu2tW4ashhK4tC38SPgVSG8D5S5JpNcZ8mK2rnyC/O91G2gEHVq1RF7axevlv3IIbioDKW/KlCYsaJ2n6w12F9o6SXgSJRtM6iayAbsmns97/KlxAChnT50I1zvBn7DyMpDeT47xkiMFRr126fMKSsJX8L8eoZC3H/Zb5Rt4pymkP2sRETtgk=
+X-OriginatorOrg: lists.fsu.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2016 14:55:29.4982
+ (UTC)
+X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.138];Helo=[lists.fsu.edu]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR02MB1620
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3 (smtpin.cs.fsu.edu [128.186.120.196]); Mon, 21 Nov 2016 09:55:41 -0500 (EST)
+
+--===============4366862663134330215==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BY2PR02MB3637A348D379615F3F879489CB50BY2PR02MB363namprd_"
+
+--_000_BY2PR02MB3637A348D379615F3F879489CB50BY2PR02MB363namprd_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+FSU IT Professionals Forum
+MEETING NOTICE
+
+Greetings!
+
+The next meeting of the FSU IT Professionals Forum is scheduled for:
+
+      Thursday, 01 December 2016 @ 3:30pm in room 1005 CSL
+
+SPECIAL NOTE: This meeting will include a discussion on the new e-mail use =
+policy. A copy of the policy will be forwarded for your review, prior to th=
+e meeting.
+
+MARK YOUR CALENDAR: JANUARY meeting: Thursday, 05-January-2017 @ 3:30pm in =
+Room 1005 CSL
+
+Meanwhile, beneath my signature line please find the full 2017 schedule for=
+ the FSU IT Professionals Forum meetings.  MARK YOUR CALENDAR, but note tha=
+t I will be sending out Outlook Meeting Requests (meeting invitations) on o=
+r around one week before each meeting.
+
+Thank you!
+
+- Hans
+
+------------------------------------
+Hans Meyer
+University IT Managers/IT Professionals Coordinator
+Information Technology Services
+The Florida State University
+Hans.Meyer@fsu.edu<mailto:Hans.Meyer@fsu.edu>
+Tallahassee, FL 32306-2620
+850.645.HANS (645.4267) (voice)
+850.644.0068 (fax)
+http://its.fsu.edu/IT-Professionals
+Self-enroll in IT Professionals Blackboard site: http://fla.st/1Rg8RrU
+
+Be a cyberhero! Build a safe cyberspace at Florida State. Your mission star=
+ts at security.fsu.edu<http://security.fsu.edu/Training/National-Cyber-Secu=
+rity-Awareness-Month>. #NCSAM
+------------------------------------
+* Before printing this e-mail decide whether it is necessary
+
+MARK YOUR CALENDAR! - 2017 FSU IT PROFESSIONALS FORUM MEETING SCHEDULE
+All meetings are the first Thursday of each month
+All meetings are from 3:30pm until 5:00pm
+All meetings are in Room 1005 CSL
+NOTE: Outlook Meeting Requests (meeting invitations) are sent out approxima=
+tely one week before the scheduled forum
+
+JANUARY: Thursday, 05-Jan-2017
+FEBRUARY: Thursday, 02-Feb-2017
+MARCH: Thursday, 02-Mar-2017
+APRIL: Thursday, 06-Apr-2017
+MAY: Thursday, 04-May-2017
+JUNE: Thursday, 01-Jun-2017
+JULY: Thursday, 06-Jul-2017
+AUGUST: Thursday, 03-Aug-2017
+SEPTEMBER: Thursday, 07-Sep-2017
+OCTOBER: Thursday, 05-Oct-2017
+NOVEMBER: Thursday, 02-Nov-2017 | look for the 2018 schedule in this Outloo=
+k Meeting Request
+DECEMBER: Thursday, 07-Dec-2017 | look for the 2018 schedule in this Outloo=
+k Meeting Request
+
+
+
+--_000_BY2PR02MB3637A348D379615F3F879489CB50BY2PR02MB363namprd_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from rtf -->
+<style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left:=
+ #800000 2px solid; } --></style>
+</head>
+<body>
+<font face=3D"Calibri" size=3D"2"><span style=3D"font-size:11pt;">
+<div>FSU IT Professionals Forum</div>
+<div>MEETING NOTICE</div>
+<div>&nbsp;</div>
+<div>Greetings!</div>
+<div>&nbsp;</div>
+<div>The next meeting of the FSU IT Professionals Forum is scheduled for:</=
+div>
+<div>&nbsp;</div>
+<div style=3D"padding-left:36pt;">Thursday, 01 December 2016 @ 3:30pm in ro=
+om 1005 CSL</div>
+<div>&nbsp;</div>
+<div>SPECIAL NOTE: This meeting will include a discussion on the new e-mail=
+ use policy. <b>A copy of the policy will be forwarded for your review, pri=
+or to the meeting.</b></div>
+<div>&nbsp;</div>
+<div>MARK YOUR CALENDAR: JANUARY meeting: Thursday, 05-January-2017 @ 3:30p=
+m in Room 1005 CSL</div>
+<div>&nbsp;</div>
+<div>Meanwhile, beneath my signature line please find the full 2017 schedul=
+e for the FSU IT Professionals Forum meetings.&nbsp; MARK YOUR CALENDAR, bu=
+t note that I will be sending out Outlook Meeting Requests (meeting invitat=
+ions) on or around one week before each
+meeting.</div>
+<div>&nbsp;</div>
+<div>Thank you!</div>
+<div>&nbsp;</div>
+<div>- Hans</div>
+<div>&nbsp;</div>
+<div><font size=3D"2" color=3D"#1F497D"><span style=3D"font-size:10pt;">---=
+---------------------------------<br>
+
+<font face=3D"Arial">Hans Meyer<br>
+
+University IT Managers/IT Professionals Coordinator<br>
+
+Information Technology Services<br>
+
+The Florida State University<br>
+
+</font><a href=3D"mailto:Hans.Meyer@fsu.edu"><font face=3D"Arial" color=3D"=
+blue"><u>Hans.Meyer@fsu.edu</u></font></a><br>
+
+<font face=3D"Arial">Tallahassee, FL 32306-2620<br>
+
+850.645.HANS (645.4267) (voice)<br>
+
+</font><font face=3D"Arial">850.644.0068 (fax)<br>
+
+</font><a href=3D"http://its.fsu.edu/IT-Professionals"><font size=3D"2" col=
+or=3D"blue"><span style=3D"font-size:11pt;"><u>http://its.fsu.edu/IT-Profes=
+sionals</u></span></font></a><font size=3D"2" color=3D"black"><span style=
+=3D"font-size:11pt;"> </span></font></span></font></div>
+<div><font color=3D"#1F497D">Self-enroll in IT Professionals Blackboard sit=
+e: <a href=3D"http://fla.st/1Rg8RrU"><font color=3D"blue"><u>http://fla.st/=
+1Rg8RrU</u></font></a></font></div>
+<div><font color=3D"#1F497D">&nbsp;</font></div>
+<div><font color=3D"#782F40"><b><i>Be a cyberhero!</i></b><i> Build a safe =
+cyberspace at Florida State. Your mission starts at </i><a href=3D"http://s=
+ecurity.fsu.edu/Training/National-Cyber-Security-Awareness-Month"><i><u>sec=
+urity.fsu.edu</u></i></a>.<i> #NCSAM</i></font></div>
+<div><font size=3D"2" color=3D"#1F497D"><span style=3D"font-size:10pt;">---=
+---------------------------------<br>
+
+<font face=3D"Webdings" size=3D"5" color=3D"green"><span style=3D"font-size=
+:18pt;">P</span></font><font size=3D"2" color=3D"black"><span style=3D"font=
+-size:11pt;"> </span></font><font face=3D"Arial Narrow" size=3D"1" color=3D=
+"green"><span style=3D"font-size:7.5pt;">Before printing
+this e-mail decide whether it is necessary</span></font></span></font></div=
+>
+<div>&nbsp;</div>
+<div>MARK YOUR CALENDAR! &#8211; 2017 FSU IT PROFESSIONALS FORUM MEETING SC=
+HEDULE</div>
+<div>All meetings are the first Thursday of each month</div>
+<div>All meetings are from 3:30pm until 5:00pm</div>
+<div>All meetings are in Room 1005 CSL</div>
+<div>NOTE: Outlook Meeting Requests (meeting invitations) are sent out appr=
+oximately one week before the scheduled forum</div>
+<div>&nbsp;</div>
+<div>JANUARY: Thursday, 05-Jan-2017</div>
+<div>FEBRUARY: Thursday, 02-Feb-2017</div>
+<div>MARCH: Thursday, 02-Mar-2017</div>
+<div>APRIL: Thursday, 06-Apr-2017</div>
+<div>MAY: Thursday, 04-May-2017</div>
+<div>JUNE: Thursday, 01-Jun-2017</div>
+<div>JULY: Thursday, 06-Jul-2017</div>
+<div>AUGUST: Thursday, 03-Aug-2017</div>
+<div>SEPTEMBER: Thursday, 07-Sep-2017</div>
+<div>OCTOBER: Thursday, 05-Oct-2017</div>
+<div>NOVEMBER: Thursday, 02-Nov-2017 | look for the 2018 schedule in this O=
+utlook Meeting Request</div>
+<div>DECEMBER: Thursday, 07-Dec-2017 | look for the 2018 schedule in this O=
+utlook Meeting Request</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+</span></font>
+</body>
+</html>
+
+--_000_BY2PR02MB3637A348D379615F3F879489CB50BY2PR02MB363namprd_
+Content-Type: text/calendar; charset="utf-8"; method=REQUEST
+Content-Transfer-Encoding: base64
+
+QkVHSU46VkNBTEVOREFSDQpNRVRIT0Q6UkVRVUVTVA0KUFJPRElEOk1pY3Jvc29mdCBFeGNoYW5n
+ZSBTZXJ2ZXIgMjAxMA0KVkVSU0lPTjoyLjANCkJFR0lOOlZUSU1FWk9ORQ0KVFpJRDpFYXN0ZXJu
+IFN0YW5kYXJkIFRpbWUNCkJFR0lOOlNUQU5EQVJEDQpEVFNUQVJUOjE2MDEwMTAxVDAyMDAwMA0K
+VFpPRkZTRVRGUk9NOi0wNDAwDQpUWk9GRlNFVFRPOi0wNTAwDQpSUlVMRTpGUkVRPVlFQVJMWTtJ
+TlRFUlZBTD0xO0JZREFZPTFTVTtCWU1PTlRIPTExDQpFTkQ6U1RBTkRBUkQNCkJFR0lOOkRBWUxJ
+R0hUDQpEVFNUQVJUOjE2MDEwMTAxVDAyMDAwMA0KVFpPRkZTRVRGUk9NOi0wNTAwDQpUWk9GRlNF
+VFRPOi0wNDAwDQpSUlVMRTpGUkVRPVlFQVJMWTtJTlRFUlZBTD0xO0JZREFZPTJTVTtCWU1PTlRI
+PTMNCkVORDpEQVlMSUdIVA0KRU5EOlZUSU1FWk9ORQ0KQkVHSU46VkVWRU5UDQpPUkdBTklaRVI7
+Q049Ik1leWVyLCBIYW5zIjpNQUlMVE86SGFucy5NZXllckBmc3UuZWR1DQpBVFRFTkRFRTtST0xF
+PVJFUS1QQVJUSUNJUEFOVDtQQVJUU1RBVD1ORUVEUy1BQ1RJT047UlNWUD1GQUxTRTtDTj11aXRt
+QGxpc3QNCiBzLmZzdS5lZHU6TUFJTFRPOnVpdG1AbGlzdHMuZnN1LmVkdQ0KQVRURU5ERUU7Uk9M
+RT1SRVEtUEFSVElDSVBBTlQ7UEFSVFNUQVQ9TkVFRFMtQUNUSU9OO1JTVlA9RkFMU0U7Q049bm9s
+ZW5ldEBsDQogaXN0cy5mc3UuZWR1Ok1BSUxUTzpub2xlbmV0QGxpc3RzLmZzdS5lZHUNCkRFU0NS
+SVBUSU9OO0xBTkdVQUdFPWVuLVVTOkZTVSBJVCBQcm9mZXNzaW9uYWxzIEZvcnVtXG5NRUVUSU5H
+IE5PVElDRVxuXG5Hcg0KIGVldGluZ3MhXG5cblRoZSBuZXh0IG1lZXRpbmcgb2YgdGhlIEZTVSBJ
+VCBQcm9mZXNzaW9uYWxzIEZvcnVtIGlzIHNjaGVkdWxlDQogZCBmb3I6XG5cbiAgICAgIFRodXJz
+ZGF5XCwgMDEgRGVjZW1iZXIgMjAxNiBAIDM6MzBwbSBpbiByb29tIDEwMDUgQ1NMXG5cblMNCiBQ
+RUNJQUwgTk9URTogVGhpcyBtZWV0aW5nIHdpbGwgaW5jbHVkZSBhIGRpc2N1c3Npb24gb24gdGhl
+IG5ldyBlLW1haWwgdXNlIA0KIHBvbGljeS4gQSBjb3B5IG9mIHRoZSBwb2xpY3kgd2lsbCBiZSBm
+b3J3YXJkZWQgZm9yIHlvdXIgcmV2aWV3XCwgcHJpb3IgdG8gDQogdGhlIG1lZXRpbmcuXG5cbk1B
+UksgWU9VUiBDQUxFTkRBUjogSkFOVUFSWSBtZWV0aW5nOiBUaHVyc2RheVwsIDA1LUphbnVhcnkN
+CiAtMjAxNyBAIDM6MzBwbSBpbiBSb29tIDEwMDUgQ1NMXG5cbk1lYW53aGlsZVwsIGJlbmVhdGgg
+bXkgc2lnbmF0dXJlIGxpbmUgcA0KIGxlYXNlIGZpbmQgdGhlIGZ1bGwgMjAxNyBzY2hlZHVsZSBm
+b3IgdGhlIEZTVSBJVCBQcm9mZXNzaW9uYWxzIEZvcnVtIG1lZXRpDQogbmdzLiAgTUFSSyBZT1VS
+IENBTEVOREFSXCwgYnV0IG5vdGUgdGhhdCBJIHdpbGwgYmUgc2VuZGluZyBvdXQgT3V0bG9vayBN
+ZWUNCiB0aW5nIFJlcXVlc3RzIChtZWV0aW5nIGludml0YXRpb25zKSBvbiBvciBhcm91bmQgb25l
+IHdlZWsgYmVmb3JlIGVhY2ggbWVldA0KIGluZy5cblxuVGhhbmsgeW91IVxuXG4tIEhhbnNcblxu
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG5IYW5zDQogIE1leWVyXG5Vbml2
+ZXJzaXR5IElUIE1hbmFnZXJzL0lUIFByb2Zlc3Npb25hbHMgQ29vcmRpbmF0b3JcbkluZm9ybWF0
+aW9uIFQNCiBlY2hub2xvZ3kgU2VydmljZXNcblRoZSBGbG9yaWRhIFN0YXRlIFVuaXZlcnNpdHlc
+bkhhbnMuTWV5ZXJAZnN1LmVkdTxtYWlsdA0KIG86SGFucy5NZXllckBmc3UuZWR1PlxuVGFsbGFo
+YXNzZWVcLCBGTCAzMjMwNi0yNjIwXG44NTAuNjQ1LkhBTlMgKDY0NS40MjY3DQogKSAodm9pY2Up
+XG44NTAuNjQ0LjAwNjggKGZheClcbmh0dHA6Ly9pdHMuZnN1LmVkdS9JVC1Qcm9mZXNzaW9uYWxz
+XG5TZWxmLWUNCiBucm9sbCBpbiBJVCBQcm9mZXNzaW9uYWxzIEJsYWNrYm9hcmQgc2l0ZTogaHR0
+cDovL2ZsYS5zdC8xUmc4UnJVXG5cbkJlIGEgYw0KIHliZXJoZXJvISBCdWlsZCBhIHNhZmUgY3li
+ZXJzcGFjZSBhdCBGbG9yaWRhIFN0YXRlLiBZb3VyIG1pc3Npb24gc3RhcnRzIGF0DQogIHNlY3Vy
+aXR5LmZzdS5lZHU8aHR0cDovL3NlY3VyaXR5LmZzdS5lZHUvVHJhaW5pbmcvTmF0aW9uYWwtQ3li
+ZXItU2VjdXJpdHkNCiAtQXdhcmVuZXNzLU1vbnRoPi4gI05DU0FNXG4tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS1cbuKAoiBCZWZvcg0KIGUgcHJpbnRpbmcgdGhpcyBlLW1haWwg
+ZGVjaWRlIHdoZXRoZXIgaXQgaXMgbmVjZXNzYXJ5XG5cbk1BUksgWU9VUiBDQUxFTkRBDQogUiEg
+4oCTIDIwMTcgRlNVIElUIFBST0ZFU1NJT05BTFMgRk9SVU0gTUVFVElORyBTQ0hFRFVMRVxuQWxs
+IG1lZXRpbmdzIGFyZSANCiB0aGUgZmlyc3QgVGh1cnNkYXkgb2YgZWFjaCBtb250aFxuQWxsIG1l
+ZXRpbmdzIGFyZSBmcm9tIDM6MzBwbSB1bnRpbCA1OjAwcA0KIG1cbkFsbCBtZWV0aW5ncyBhcmUg
+aW4gUm9vbSAxMDA1IENTTFxuTk9URTogT3V0bG9vayBNZWV0aW5nIFJlcXVlc3RzIChtZWV0DQog
+aW5nIGludml0YXRpb25zKSBhcmUgc2VudCBvdXQgYXBwcm94aW1hdGVseSBvbmUgd2VlayBiZWZv
+cmUgdGhlIHNjaGVkdWxlZCANCiBmb3J1bVxuXG5KQU5VQVJZOiBUaHVyc2RheVwsIDA1LUphbi0y
+MDE3XG5GRUJSVUFSWTogVGh1cnNkYXlcLCAwMi1GZWItMjAxNw0KIFxuTUFSQ0g6IFRodXJzZGF5
+XCwgMDItTWFyLTIwMTdcbkFQUklMOiBUaHVyc2RheVwsIDA2LUFwci0yMDE3XG5NQVk6IFRodXJz
+DQogZGF5XCwgMDQtTWF5LTIwMTdcbkpVTkU6IFRodXJzZGF5XCwgMDEtSnVuLTIwMTdcbkpVTFk6
+IFRodXJzZGF5XCwgMDYtSnVsLTINCiAwMTdcbkFVR1VTVDogVGh1cnNkYXlcLCAwMy1BdWctMjAx
+N1xuU0VQVEVNQkVSOiBUaHVyc2RheVwsIDA3LVNlcC0yMDE3XG5PQw0KIFRPQkVSOiBUaHVyc2Rh
+eVwsIDA1LU9jdC0yMDE3XG5OT1ZFTUJFUjogVGh1cnNkYXlcLCAwMi1Ob3YtMjAxNyB8IGxvb2sg
+Zm9yDQogIHRoZSAyMDE4IHNjaGVkdWxlIGluIHRoaXMgT3V0bG9vayBNZWV0aW5nIFJlcXVlc3Rc
+bkRFQ0VNQkVSOiBUaHVyc2RheVwsIDANCiA3LURlYy0yMDE3IHwgbG9vayBmb3IgdGhlIDIwMTgg
+c2NoZWR1bGUgaW4gdGhpcyBPdXRsb29rIE1lZXRpbmcgUmVxdWVzdFxuXA0KIG5cbg0KVUlEOjA0
+MDAwMDAwODIwMEUwMDA3NEM1QjcxMDFBODJFMDA4MDAwMDAwMDBDMEQzMEU2OTg2QjlEMDAxMDAw
+MDAwMDAwMDAwMDAwDQogMDEwMDAwMDAwMTkzQTVBRDk3NjQ1M0Y0REEzMDJFQkIyM0VCMzhENDIN
+ClNVTU1BUlk7TEFOR1VBR0U9ZW4tVVM6TWVldGluZyBOb3RpY2U6IEZTVSBJVCBQcm9mZXNzaW9u
+YWxzIEZvcnVtIHwgMDEtRGVjLQ0KIDIwMTYgfCBTcGVjaWFsIHRvcGljOiBOZXcgZS1tYWlsIHVz
+ZSBwb2xpY3kNCkRUU1RBUlQ7VFpJRD1FYXN0ZXJuIFN0YW5kYXJkIFRpbWU6MjAxNjEyMDFUMTUz
+MDAwDQpEVEVORDtUWklEPUVhc3Rlcm4gU3RhbmRhcmQgVGltZToyMDE2MTIwMVQxNzAwMDANCkNM
+QVNTOlBVQkxJQw0KUFJJT1JJVFk6MQ0KRFRTVEFNUDoyMDE2MTEyMVQxNDU1MjFaDQpUUkFOU1A6
+T1BBUVVFDQpTVEFUVVM6Q09ORklSTUVEDQpTRVFVRU5DRTowDQpMT0NBVElPTjtMQU5HVUFHRT1l
+bi1VUzpSb29tIDEwMDUgQ1NMDQpYLU1JQ1JPU09GVC1DRE8tQVBQVC1TRVFVRU5DRTowDQpYLU1J
+Q1JPU09GVC1DRE8tT1dORVJBUFBUSUQ6LTkyOTQ4NTEyDQpYLU1JQ1JPU09GVC1DRE8tQlVTWVNU
+QVRVUzpURU5UQVRJVkUNClgtTUlDUk9TT0ZULUNETy1JTlRFTkRFRFNUQVRVUzpCVVNZDQpYLU1J
+Q1JPU09GVC1DRE8tQUxMREFZRVZFTlQ6RkFMU0UNClgtTUlDUk9TT0ZULUNETy1JTVBPUlRBTkNF
+OjINClgtTUlDUk9TT0ZULUNETy1JTlNUVFlQRTowDQpYLU1JQ1JPU09GVC1ESVNBTExPVy1DT1VO
+VEVSOlRSVUUNCkVORDpWRVZFTlQNCkVORDpWQ0FMRU5EQVINCg==
+
+--_000_BY2PR02MB3637A348D379615F3F879489CB50BY2PR02MB363namprd_--
+
+--===============4366862663134330215==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Nolenet maillist  -  Nolenet@lists.fsu.edu
+https://lists.fsu.edu/mailman/listinfo/nolenet
+
+--===============4366862663134330215==--

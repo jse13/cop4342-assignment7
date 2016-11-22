@@ -1,0 +1,1222 @@
+Return-Path: <nolenet-bounces@lists.fsu.edu>
+X-Original-To: langley@mail2.cs.fsu.edu
+Delivered-To: langley@mail2.cs.fsu.edu
+Received: from mail.cs.fsu.edu (mail.cs.fsu.edu [128.186.120.4])
+	by mail2.cs.fsu.edu (Postfix) with ESMTP id 6D7704800AF
+	for <langley@mail2.cs.fsu.edu>; Fri, 11 Nov 2016 11:16:33 -0500 (EST)
+Received: by mail.cs.fsu.edu (Postfix)
+	id 83417F35AA; Fri, 11 Nov 2016 11:17:46 -0500 (EST)
+Delivered-To: langley@cs.fsu.edu
+Received: from smtpin.cs.fsu.edu (smtpin.cs.fsu.edu [128.186.120.196])
+	by mail.cs.fsu.edu (Postfix) with ESMTP
+	id 65146F3594; Fri, 11 Nov 2016 11:17:46 -0500 (EST)
+X-Spam-Status: No
+X-FSUCS-MailScanner-Watermark-fsucs: 1479485788.96056@finE/HW5yY5htBHXad6nvQ
+X-FSUCS-MailScanner-From: nolenet-bounces@lists.fsu.edu
+X-FSUCS-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+	score=-1.341, required 5, AWL 0.47, BAYES_00 -1.90, DKIM_SIGNED 0.10,
+	HTML_MESSAGE 0.00, RCVD_IN_DNSWL_NONE -0.00, RCVD_IN_MSPIKE_H3 -0.01,
+	RCVD_IN_MSPIKE_WL -0.01, SPF_HELO_PASS -0.00, SPF_PASS -0.00,
+	T_DKIM_INVALID 0.01)
+X-FSUCS-MailScanner: Found to be clean
+X-FSUCS-MailScanner-ID: uABGGOLf022108
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com (mail-bn3nam01on0078.outbound.protection.outlook.com [104.47.33.78])
+	by smtpin.cs.fsu.edu (8.13.1/8.13.1) with ESMTP id uABGGOLf022108
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 11 Nov 2016 11:16:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
+ s=selector1-lists-fsu-edu;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=9B2LD/05xTmKIQgsMhRgUtgLqUBFBF3TIMOPUNhANGA=;
+ b=NIqN8LST2ElQgWqsyp4qF5XZ2uhk7IKpu80q2pQaRow/iggMCfARIQViZ41c2ksQRaGYnJnfmeQG6xHLuJU2EPD2JQrqMRMkND8ZARj6mEEsZ9vRfSnjsuAkJHRp2QsvNn5kbwBH9dIB4MbzyG2ES/zaayb+BENlm6nXGPl7PuE=
+Received: from BLUPR0201CA0041.namprd02.prod.outlook.com (10.163.116.51) by
+ CY1PR0201MB1532.namprd02.prod.outlook.com (10.163.139.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.707.6; Fri, 11 Nov 2016 16:16:21 +0000
+Received: from BN1AFFO11OLC004.protection.gbl (2a01:111:f400:7c10::152) by
+ BLUPR0201CA0041.outlook.office365.com (2a01:111:e400:52e7::51) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.10 via
+ Frontend Transport; Fri, 11 Nov 2016 16:16:21 +0000
+Authentication-Results: spf=pass (sender IP is 146.201.107.138)
+ smtp.mailfrom=lists.fsu.edu; fsu.edu; dkim=none (message not signed)
+ header.d=none;fsu.edu; dmarc=bestguesspass action=none
+ header.from=fsu.edu;cs.fsu.edu; dkim=none (message not signed) header.d=none;
+Received-SPF: Pass (protection.outlook.com: domain of lists.fsu.edu designates
+ 146.201.107.138 as permitted sender) receiver=protection.outlook.com;
+ client-ip=146.201.107.138; helo=lists.fsu.edu;
+Received: from lists.fsu.edu (146.201.107.138) by
+ BN1AFFO11OLC004.mail.protection.outlook.com (10.58.53.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.707.3 via Frontend Transport; Fri, 11 Nov 2016 16:16:20 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:;UpperCasedChecksum:;SizeAsReceived:4030;Count:43
+Received: from lists.fsu.edu (localhost [127.0.0.1])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uABGGICq011960;
+	Fri, 11 Nov 2016 11:16:18 -0500
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+	(mail-cys01nam02lp0050.outbound.protection.outlook.com
+	[207.46.163.50])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uABGGFRu011943;
+	Fri, 11 Nov 2016 11:16:15 -0500
+Received: from BY2PR02MB363.namprd02.prod.outlook.com (10.141.140.148) by
+	BY2PR02MB1750.namprd02.prod.outlook.com (10.163.27.148) with Microsoft
+	SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+	15.1.707.6; Fri, 11 Nov 2016 16:16:15 +0000
+Received: from BY2PR02MB363.namprd02.prod.outlook.com ([10.141.140.148]) by
+	BY2PR02MB363.namprd02.prod.outlook.com ([10.141.140.148]) with mapi id
+	15.01.0707.013; Fri, 11 Nov 2016 16:16:13 +0000
+From: "Meyer, Hans" <Hans.Meyer@fsu.edu>
+To: "uitm@lists.fsu.edu" <uitm@lists.fsu.edu>,
+	"nolenet@lists.fsu.edu" <nolenet@lists.fsu.edu>
+Thread-Topic: Reminder: 2016 Procurement Orientation for IT Professionals
+Thread-Index: AdI8MtJ4sfIkxrkhTMWtFfdAIwntGw==
+Date: Fri, 11 Nov 2016 16:16:13 +0000
+Message-ID: <BY2PR02MB36327AE0EB3166FE1E522EC9CBB0@BY2PR02MB363.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.fsu.edu; dkim=none (message not signed)
+	header.d=none; lists.fsu.edu; dmarc=none action=none header.from=fsu.edu;
+x-originating-ip: [173.77.19.211]
+X-Microsoft-Exchange-Diagnostics-untrusted: 1; BY2PR02MB1750;
+	7:UMT1f/4QvowhbQPBBbLNITxe3sG2ooAuU3OzlunO8ni47enZH4gsO+mrCS4gQHk8V1bvDwnC5Q9ZcZH40C1IGja84trMxG8tMHHwVFlHL4lHQRBW+fb397d2X3OlCWL3ChfIC0QbHkpKHpG/rbPrfSzLwEPl7inDHu/ZBAch/oxHzhiDIJYp10Kf2fej/1b2eJfOasOGcbmXgZJb6OzomjKb/0TpoVTrc34EcsUpDq9z8Di5uglzpeVXqWHv3Lu7iNjA05b0EKtsZ88fhB6v5IYox/BrrgQHoZJVNNhQFCzuUFaDtAWpiHRMbUnyZCQv11fHpIB1nWex/lsZ1+XEaOXw+1HXUiMur/WvCRJpDN4=
+X-Forefront-Antispam-Report-Untrusted: SFV:SKI; SCL:-1SFV:SKI; SFS:; DIR:INB;
+ SFP:;	SCL:-1; SRVR:BY2PR02MB1750;	H:BY2PR02MB363.namprd02.prod.outlook.com;
+ FPR:; SPF:None;	LANG:en; 
+X-MS-Office365-Filtering-Correlation-Id: c9dd79e2-39e2-4403-cb60-08d40a4e12dd
+X-Microsoft-Antispam-Untrusted: UriScan:;BCL:0;PCL:0;RULEID:(22001);SRVR:BY2PR02MB1750;
+x-exchange-antispam-report-test: 
+	UriScan:(129945304726314)(21748063052155);UriScan:(129945304726314)(21748063052155);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(9101524098)(601004)(2401047)(8121501046)(3002001)(10201501046);
+	SRVR:BY2PR02MB1750; BCL:0; PCL:0; RULEID:; SRVR:BY2PR02MB1750;
+ BCL:0;PCL:0;RULEID:(102415395)(6040176)(601004)(2401047)(13017025)(13018025)(13024025)(13023025)(13015025)(5005006)(8121501046)(10201501046)(3002001);SRVR:CY1PR0201MB1532;BCL:0;PCL:0;RULEID:;SRVR:CY1PR0201MB1532;
+SpamDiagnosticOutput: 1:99
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR02MB1750
+Cc: "Robbins, Ian" <irobbins@fsu.edu>,
+	"Sullivan, Phyllis" <pwsullivan@admin.fsu.edu>,
+	"Milburn, Nancy" <NMilburn@admin.fsu.edu>,
+	"Borschel, Dave" <DBorschel@fsu.edu>,
+	"Hubbard, Sarah" <sehubbard@fsu.edu>,
+	"Martin, Jane" <jmartin2@admin.fsu.edu>
+Subject: [Nolenet] Reminder: 2016 Procurement Orientation for IT
+	Professionals
+X-BeenThere: nolenet@lists.fsu.edu
+X-Mailman-Version: 2.1.15
+Precedence: list
+List-Id: IT Professionals list <nolenet.lists.fsu.edu>
+List-Unsubscribe: <https://lists.fsu.edu/mailman/options/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=unsubscribe>
+List-Archive: <https://lists.fsu.edu/mailman/private/nolenet/>
+List-Post: <mailto:nolenet@lists.fsu.edu>
+List-Help: <mailto:nolenet-request@lists.fsu.edu?subject=help>
+List-Subscribe: <https://lists.fsu.edu/mailman/listinfo/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=subscribe>
+Content-Type: multipart/mixed;
+	boundary="===============9215340890321520682=="
+Errors-To: nolenet-bounces@lists.fsu.edu
+Sender: Nolenet <nolenet-bounces@lists.fsu.edu>
+X-IncomingHeaderCount: 43
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: BN1AFFO11OLC004.protection.gbl
+X-Forefront-Antispam-Report: 
+	CIP:146.201.107.138;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(7916002)(2980300002)(438002)(156002)(189002)(176002)(30584003)(6262002)(199003)(44134004)(12213003)(6116002)(102836003)(3846002)(7596002)(790700001)(92566002)(2171001)(89386003)(87936001)(146002)(15198665003)(88552002)(75432002)(9036002)(8936002)(512954002)(90282001)(15395725005)(575784001)(76786999)(122556002)(270700001)(7906003)(260700001)(7736002)(586003)(2900100001)(50986999)(84326002)(2501003)(19810500001)(54356999)(47976999)(4326007)(246002)(4610100001)(66066001)(78456001)(1720100001)(77096005)(99286002)(9686002)(2476003)(7696004)(5001770100001)(76576001)(5660300001)(106466001)(33656002)(356003)(626004)(8666005)(109096001)(89122001)(74316002)(7416002)(189998001)(76806002)(2906002)(7059030)(24616003)(579004)(10090945008);DIR:OUT;SFP:1101;SCL:1;SRVR:CY1PR0201MB1532;H:lists.fsu.edu;FPR:;SPF:Pass;PTR:lists.fsu.edu;MX:1;A:1;LANG:en;
+X-Microsoft-Exchange-Diagnostics: 1;BN1AFFO11OLC004;1:PA9WNTifCz/I+F04WpsDIFSDtSs0oVmGmoZGpy1G4ERVz/a7mlrMQOKK22dI1uTMF3c6sVMeViTydZPhtnF6YEnRhqhE1i7gLFWTrFh1dQ6EUzRFnBquNxUBvqPUYoo0AzzocnSlUI2CEnCfYlN+qniI8aYk1YIwedhy8fIbQaGqU1laI5FtpWxPVxhWePVM5DsLWxMXJ2hiP8xJstr/CqqTGIAIvJjA8YUWCJB4XCS86fDzXtmZY+z7U2IYnHexiV/T2sOtORjQv2rqIfP8s3KR6cV9PbVPj4YFdAG3dEeitwF/WOr4nDC+yD8KxPsVsLHO1cyto7uQ+W1hJdiy/aPqCFA09rjmNPb7s4NX8R7ZP/NqOdwsR9yPVW0fgbdis48BcjfLlKiCIy25FTPUyicKWRZnxrSk2wHQ7oulDmSXmjPl2q43W+J8f82sOeOeerET1suBDwD1NyMp6KjwPFEUoOddEsX74DtBejEeIVNpJQJ3pEQVRIGcN2Z7ORzJrkxHOewC6wHghn2NfAke670sNciZuuB4ex/JHCXmaYUXd/82zd0OIaibiC6HBRQBxo0PXF+5P+g5+0kE5596fhRpaGkypNEfTYw+X/9A+Ep5cz8PTr0GpM21ZkC51neyYMjsmdAFZJH/Hmyxq6mMTw==
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;2:xxYRReN5kmEXegfTi0gONufbge8EhUucRubmJgqEpmqGoYW1+mGqzwfSVhzyB1NFSo3COGnMFhd4jODEXrXGJYsOFKX9tUESWVsw2JIbDBW2O197Ecrcehx7kEcCN0fu6fOcsKjUOzYG/kcB+GRDxvB0fUh7acjU6OGsIKLoTU0=;3:LhiTloTn++x89CR9gPxWwQQVn0bEYSNw5HZpCk+LTInEvFw4esdZha2GDh+FYDMLktenpCP4KeuZ+UWHQ1FEhUu0T/UnM6zTawXpMGxsyDWJbB2VtFCecyv8OB1NKWElfSydDRq9rHNVkVHgnino7keLIDk+wjks+yIZGm5tKF3oPd5BNxri0vP9fogr2BMTtn2DXdbNaP49fyXlBRM1uTE8p1whsXNLxeiYTK3OhMITMqhxtz0ava6fnFOvxPLTk8MM3bcrIMlZ8L9EIfEpvFxzVNS4GHzYh2Tlr9F3NWcHvitLGDVM9q81Nn5eGtG4ByeRsiykiSIpNOWJ0HTFKg==
+X-Microsoft-Antispam: 
+	UriScan:;BCL:0;PCL:0;RULEID:(22001)(421252002)(8251501002);SRVR:CY1PR0201MB1532;
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;25:e5wC+Xhml9tkQ2P3BkBZXtL6EWLHuPJbebMuLVNDXl6fmhxi6MxXGwATf6GdXjkvLuBZIn1CpyGuV/fJIAkQkmt1FkMqgga0pNCTjqDiuGctOXHHUjSstQ+AkyeZfsXOAVkH06A2oXC31RkyQLuMQaWFuV0iSpjDwbxqzY5/QXteg6mcfmTP8WsWLRUvH+T0xv4UhgP2D9OWFORQ9MZnz4zYP0C+lCf0HfvaoLtjarm2DUD5PVA/1hP3O62aA559ei7ya9Nd1NHGnjQWCmchWSHKH4s6abwqwSmZS2iMqAQoFRDZcfoUVkh/tHcrXy+EYilQvK8Rp2Tc9QG7UpvdjG8/JT8DtNqbIukqkuoyRoqfwzhBzo7FGZGvku12FkXY22Xt2oHjhxIa4M2YiBEezsrZZhHkOHbXK/B+4i6Lv+3K51QtMXSOa+6D1hoZkDT9wSlSNA1On5AlgwTCVE4aT1HNg4jYkVP2P250IoVvWFGmR7SntYjptMZU80PVqC0e;31:6bE7br6TvZhc4Tx60vR4PmdiMGYUhiLUkpvRqLjuoH/kDjHRHZsVh+mXew/6tVStwD9gUnECGMEtJ8DpDLEXkMUnXnOOmzQxfxKMbxxrc+v6DMA27fKnhT00mbJj82rYmWdl08+L/LCb6llp4NI2W37ZxegJgxaUvSIpQfFFR/IqNT3sVtCJXcnkWheZ6vfrjZtbm2r0WKJS0N6M1GFfURPVLYdzCJc5HDt1euUmr001T0nE0wpRsTRxGs3mTVx9585CLgZTLvIs4GDkhDTCSBWBym77FC294BPimZUxIpU=
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;20:qG2CVX4DDBkf2R4EK6yer8tQXet+dK8gOgg/1DffJMDvQZ6nfDu+SrSO3JcN7SZNHA8nVSCBlAGFuLPUVZBAPx3RneoyVwNonnYCoGQCyNYr8TvHnu18K3YMXxB9/6YZx7mVU8zvgCNDewbNqISbPlQBebJ2fPLhjCSfC7ZcWfL5iblaSYsP68Mc+1oFth+SrzzV/d6eXzzejR13YGOMbDsR7uiLxpNFA+Z4OZfW+qY42bDupBrQ8PAcO6QDCslGM+ctDpa19DJ/FwcB86AoblYExiDzi7IQCUD0iuPBigodCry07fnbIBYScsKfS702v+BNGQU+JsvWsZK7h3BKzwnFtaZNkhSipJJ73C6Y5Yyq0XeSau8a69jaeTNVPJjoP9yRqbG+z/SKIbibuPPug47wqFQv8LRVB4wPwH+s0eufpC4Q3WXyENm5PwHbgZv+5R/meofPt1HKpbdojcKhuW9D2Tqz/L35IOXEpdLNXT/GppPnMmf78UHKES9axWWj8oOLiA93phNzaxrYYw5dQ/7hV3mRG+eHMkyqskMV+LHCe5VAwibEQ/eeZm9H/O9PFntQWGVk6OfWF49+IWzcuSLAbWxxaw2Ef/eSzIdJqC8=
+X-Microsoft-Antispam-PRVS: 
+	<CY1PR0201MB15328DBBAAC56162200D23FEA6BB0@CY1PR0201MB1532.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;4:zdl6Oi5WKFaNdUo01xXO7NUt65yCJMLi9LR5J8BE7d7meArRt+0Oj4bcbTI5XRcN3coZxf8IJ66ENQFdRITAmpBjFA30EwzuXrD9b+zNZNb4Sk7aQ+BFmIcFVvEgDstyajJu5p9+L9TpZRZ1qQoM6lCzzFyed40PysR3Bvn7xUzCVF8qQxqPrylgOIITc0dfIOonal0wkgVl54+J5RpXrai+mFey/gcCLdxsfXEEvCEwyXWt+JET1vMWRw6C2K7a7p6YCCaT/JCI1x3aMgfDck2fdgk2resD611adXGLsdW0OqroXTtHga9ZgNL/hx/aXrtHE2br5BtPNQzUNMB9VS3p2zsSz0DJywLePo5NL3628TyPZT9oREmFFz2o2Ri4mYw8g5ehGRbfeuoP+CZB3f3h88XqyLw6sEOSPCVT2Nj/juQHRJ5JFZ7PxkrMBD+81xdJL7UtqldqzBaZx84zM1y2krCtePy5+o87poPAmFr4lFyN4miRq9UwsN5AYGOWMZZbzl+ZA7dR0LNVW3uY4FaZMnQOyBY7HqKgBx2i/vbJxYJAVLc+aXOeneb05gBeRyj9fDA3NecEeH2fDVCHfw==
+X-Forefront-PRVS: 012349AD1C
+X-Microsoft-Exchange-Diagnostics: 
+	=?us-ascii?Q?1;CY1PR0201MB1532;23:C/EMtgeYgzI1pWvDG5lkLy5NTU+gwWaYVuxSJvH?=
+ =?us-ascii?Q?0XnbwhPf0bQHOLlgep4sR6oLFbgDKNmPJQc0RcJV6QhAUN8bSlhB6kItrZsv?=
+ =?us-ascii?Q?Zpamh8oDvqnorXFKSMJ2hB29RFxFEJBfo8XajSZ9JyvPFEvIXnJ60K1EWTaz?=
+ =?us-ascii?Q?FVtr/6ZjZTHbxqTJmKzU4XJlB6VQk34e15W+a2ZSW8hqMDRDQlf00SQtOXHx?=
+ =?us-ascii?Q?oVK6nvrVYgZQfkstEpO0IvyyY5kVx2lfSHyD4JJlMbHRsH4/mQT2jvBHq6JM?=
+ =?us-ascii?Q?lcmC2z7XepSKr8x9eCb//75mygNdybq9le1LAkNTYZPVF6dA90x8pDxpWcZT?=
+ =?us-ascii?Q?ESIhW6+0ZVyxHy0Mv0o+/5vZ7S5sOyAAdgfjX2dVwlbR5YviwFUTzdoGTeRq?=
+ =?us-ascii?Q?KSLtgDwsVtnmY8fb/9GPP3OdiNZJZ4Nd51tw1/0aAM7iQH6H2+9XIV8FTEdi?=
+ =?us-ascii?Q?IL5g+se+PQ7jc/wzopLgHA4d2fb0Gt0VlWNefWhxHo4nsVjsMGieweWXVEMq?=
+ =?us-ascii?Q?qcQOWiEvxpbUSOD2uQY/KlLUV+pJvv09lNP5TIGGuO2JiW5eIn3uySmVX+jQ?=
+ =?us-ascii?Q?Wa1CX1H8gnJFewdJAlQv0kQvtLoFoQt0dpECfDWKSW6nfoUjLRLAUYKhphft?=
+ =?us-ascii?Q?0MvCQCmQVC+fzn/WGne3Ry66FW+LZEZdbbWFPsL1MRjLW28uwUK/x3f5XsNp?=
+ =?us-ascii?Q?NsfuhtD9PVCGhZKcDPgZmjrZkkGO5zdWyFY+wJntuCNufwQ8gO6plVNfx7hq?=
+ =?us-ascii?Q?9rzwuhBneMwPDPJoREOXG7e2HzACOIZIZ2cies7hV2kXsLbmc2cdwjPG4lWB?=
+ =?us-ascii?Q?ohSwQcZq1yYDtmtRuV9g1a4pD7vZ+h5yfMBb09awcl0phtUydYYRKt61Ga6x?=
+ =?us-ascii?Q?7RiMK3gyj3ELgCoMN5hpFOVrqsQQZ+XMZ9byih/V7qdhJoVDrDbbutDTT4W6?=
+ =?us-ascii?Q?lhVTYNMqGj3/cl9Nnfvuza/aVjfYTjfE4nsYFUO7/NpIvxG0eSoxI5OllNVO?=
+ =?us-ascii?Q?Wr+ZlUU7RoLUSmqa5s6ntA/0SOt4uZF5/5fvrbFwuvLdC0nb+I7kmfzdTCWT?=
+ =?us-ascii?Q?jrxw1uyYMaKPka+o7x/lXpjRj6X0xcMTKbTTL/NGvQyC6F/qNLatDjZv9be6?=
+ =?us-ascii?Q?6Mc8ng0CQ8awS1tiz0couOqJjRCMq2buEO/PspelkpssDrSV685Ocbc8QZx+?=
+ =?us-ascii?Q?cNB+/5jEueFeyx+1Wa5fi9hJX4RL5MJAV+RVWN/lIrEIRru3Rb4UgDLLUc0d?=
+ =?us-ascii?Q?38CsClcPu5VxeChMQy1dc1SmJEfDihsMDKkAsNzl3+OQjs8oKC39veJErLbP?=
+ =?us-ascii?Q?ujlVXWDVDCQnbOCH0Hma/WcwUTgVtCMk8O43cfhi77FpSVWSkWHYxg/r7GPj?=
+ =?us-ascii?Q?vqhyWhc4IVdcXdIcfWei9KzbMqWPusf/j1SZ3/WgIJIeNVkcyOKkvUKPfBAY?=
+ =?us-ascii?Q?T7AQoRnyWQ20QU2V8VAeW2sZEJZoWC3ax77Mr+9SQcAc1vhjgwR0cYeTQyyw?=
+ =?us-ascii?Q?RZ5ROVfllztPEJgW3ztWM/BECdoVr4AwxfK9Ku+mFIXJI0h1d+oL4uGicuKd?=
+ =?us-ascii?Q?NfrMPOVk+VwNsZVSO6A9V8dYS5678PyjCwAFDN0847YCVA5TAXeqhjw0qBJO?=
+ =?us-ascii?Q?7+eoqUDeHr7XrBuXPH33kdDFlYl6HJdGzETGQtzoA3cN9E2XMc2uuLJ1nec1?=
+ =?us-ascii?Q?EDuT7/rJ7jbl7Jp0e5srKysHXFQ=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;6:Wlo3U0dG+SINF2M0aqUSo5L+f6jpC4E3QlSgkkp426G4rLWj3MHeKnGopwYkll9qkooo3jiSdLvKHzX6GLZ85cckal7Dv/NsVrCeRXD1+U5G+87SckbOqBFuvG7w97Njesnungq7Q7szfHPI3ZZiG9W4l90u0WLMwOqL6vROXsrP4w8PhSW70zMtVQj3uz3FTMYy9w5YEdO/DOXyNWlaJC4AuekuTheXpsTljPE+orqqGJMwlnAvbim2kl4AtNQ20IOic/gldkYn0cNHKKOV1HWmlM+SFDc1JXWfWeRtUXAQ1WW9IGGSVDLmAlv261y3;5:mg2AXnsXcUW4mU/HcfsOY2SdbpuWD83Mvyqb7JteeHLMAghmf8HxeV7OavZuU9jTpLqvgDi4NmrMHpIPNvgLgArajJ3L9SSCOVWJRFHDB6QAhmMBKjzEXw4ZHPK3mF46u17cbAGhlk4ZKCZFLCii2Q==;24:2NQjVeXwQb4dHXEYra3c5ufmA0IwhEzl9Syp7eff5MnyjVbEHr6Rj2wA0lOdSwXykE0hXrx51i7bZlfcb+cMPE8MKyQ1TV7JcaTxlM1ihbE=
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR0201MB1532;7:BVXZCjm/WqoX0epK4p0UwG0qktmbnZJhZLGmDDFXL3WM+1toHawavb5obJedkslFm+grQVLjqdEHHy+5K/an7a8gVt5hJk73l3tx9Hx3s9PrgBcJhPbtcs7jZqFihP636/65SpEzrQPn8H+uz3dneLw5Q+DJ+/gKTQppVGVmgNfrVmRyX8v+yNH4dqWKauLb1DDPs3r4SEZmUnuhaQX2Vb8k74pecwkc8tyVoXXvVPlFiAUlS3pJbv+PfSQLZt1bzal0w0LOe+83jkKlbyfXfqPQ8L6ILOxBzPQGCQIQiQQGvGlCC56ptVyKnCUFw6sF/xwtBQwtROaeO4KbJQduboLb/czEw6g6sh+mBSKCWYg=
+X-OriginatorOrg: lists.fsu.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2016 16:16:20.1342
+ (UTC)
+X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.138];Helo=[lists.fsu.edu]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0201MB1532
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3 (smtpin.cs.fsu.edu [128.186.120.196]); Fri, 11 Nov 2016 11:16:28 -0500 (EST)
+
+--===============9215340890321520682==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BY2PR02MB36327AE0EB3166FE1E522EC9CBB0BY2PR02MB363namprd_"
+
+--_000_BY2PR02MB36327AE0EB3166FE1E522EC9CBB0BY2PR02MB363namprd_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+A quick reminder...
+
+FSU Procurement Services and Information Technology Services will be hostin=
+g the next Procurement Orientation for IT Professionals on Tuesday, Novembe=
+r 15, 2016 @ 9:00am in the FSU Training Center at Stadium Place, Room A and=
+ B.
+
+Who should attend?
+
+Those who are responsible for either purchasing technology for their unit o=
+r recommending technology purchases should attend.  Topics covered will inc=
+lude a procurement overview, including specifications, dollar thresholds, t=
+ypes of solicitations (e.g.: RFI, ITN and ITB), confirming orders/signing o=
+f contracts, software purchases, P-card (program, cardholder errors, strike=
+s, etc.) and SpearMart.  Also covered will be the new Procurement Services =
+Procurement Software/Service Checklist.
+
+See everyone next Tuesday!
+
+Yours,
+
+Hans
+
+------------------------------------
+Hans Meyer
+University IT Managers/IT Professionals Coordinator
+Information Technology Services
+The Florida State University
+Hans.Meyer@fsu.edu<mailto:Hans.Meyer@fsu.edu>
+Tallahassee, FL 32306-2620
+850.645.HANS (645.4267) (voice)
+850.644.0068 (fax)
+http://its.fsu.edu/IT-Professionals
+Self-enroll in IT Professionals Blackboard site: http://fla.st/1Rg8RrU
+
+Be a cyberhero! Build a safe cyberspace at Florida State. Your mission star=
+ts at security.fsu.edu<http://security.fsu.edu/Training/National-Cyber-Secu=
+rity-Awareness-Month>. #NCSAM
+------------------------------------
+P Before printing this e-mail decide whether it is necessary
+
+
+--_000_BY2PR02MB36327AE0EB3166FE1E522EC9CBB0BY2PR02MB363namprd_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"ProgId" content=3D"Word.Document">
+<meta name=3D"Generator" content=3D"Microsoft Word 15">
+<meta name=3D"Originator" content=3D"Microsoft Word 15">
+<link rel=3D"File-List" href=3D"cid:filelist.xml@01D23C0D.01EA9D40"><!--[if=
+ gte mso 9]><xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG/>
+</o:OfficeDocumentSettings>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<w:WordDocument>
+<w:SpellingState>Clean</w:SpellingState>
+<w:TrackMoves/>
+<w:TrackFormatting/>
+<w:EnvelopeVis/>
+<w:PunctuationKerning/>
+<w:ValidateAgainstSchemas/>
+<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+<w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+<w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+<w:DoNotPromoteQF/>
+<w:LidThemeOther>EN-US</w:LidThemeOther>
+<w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+<w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+<w:Compatibility>
+<w:BreakWrappedTables/>
+<w:SnapToGridInCell/>
+<w:WrapTextWithPunct/>
+<w:UseAsianBreakRules/>
+<w:DontGrowAutofit/>
+<w:SplitPgBreakAndParaMark/>
+<w:EnableOpenTypeKerning/>
+<w:DontFlipMirrorIndents/>
+<w:OverrideTableStyleHps/>
+</w:Compatibility>
+<m:mathPr>
+<m:mathFont m:val=3D"Cambria Math"/>
+<m:brkBin m:val=3D"before"/>
+<m:brkBinSub m:val=3D"&#45;-"/>
+<m:smallFrac m:val=3D"off"/>
+<m:dispDef/>
+<m:lMargin m:val=3D"0"/>
+<m:rMargin m:val=3D"0"/>
+<m:defJc m:val=3D"centerGroup"/>
+<m:wrapIndent m:val=3D"1440"/>
+<m:intLim m:val=3D"subSup"/>
+<m:naryLim m:val=3D"undOvr"/>
+</m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<w:LatentStyles DefLockedState=3D"false" DefUnhideWhenUsed=3D"false" DefSem=
+iHidden=3D"false" DefQFormat=3D"false" DefPriority=3D"99" LatentStyleCount=
+=3D"371">
+<w:LsdException Locked=3D"false" Priority=3D"0" QFormat=3D"true" Name=3D"No=
+rmal"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" QFormat=3D"true" Name=3D"he=
+ading 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 7"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 8"/>
+<w:LsdException Locked=3D"false" Priority=3D"9" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" QFormat=3D"true" Name=3D"heading 9"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 6"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 7"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 8"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index 9"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 7"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 8"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"toc 9"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Normal Indent"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"footnote text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"annotation text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"header"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"footer"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"index heading"/>
+<w:LsdException Locked=3D"false" Priority=3D"35" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" QFormat=3D"true" Name=3D"caption"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"table of figures"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"envelope address"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"envelope return"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"footnote reference"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"annotation reference"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"line number"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"page number"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"endnote reference"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"endnote text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"table of authorities"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"macro"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"toa heading"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Bullet"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Number"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Bullet 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Bullet 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Bullet 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Bullet 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Number 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Number 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Number 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Number 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"10" QFormat=3D"true" Name=3D"T=
+itle"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Closing"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Signature"/>
+<w:LsdException Locked=3D"false" Priority=3D"1" SemiHidden=3D"true" UnhideW=
+henUsed=3D"true" Name=3D"Default Paragraph Font"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text Indent"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Continue"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Continue 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Continue 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Continue 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"List Continue 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Message Header"/>
+<w:LsdException Locked=3D"false" Priority=3D"11" QFormat=3D"true" Name=3D"S=
+ubtitle"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Salutation"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Date"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text First Indent"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text First Indent 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Note Heading"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text Indent 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Body Text Indent 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Block Text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Hyperlink"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"FollowedHyperlink"/>
+<w:LsdException Locked=3D"false" Priority=3D"22" QFormat=3D"true" Name=3D"S=
+trong"/>
+<w:LsdException Locked=3D"false" Priority=3D"20" QFormat=3D"true" Name=3D"E=
+mphasis"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Document Map"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Plain Text"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"E-mail Signature"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Top of Form"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Bottom of Form"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Normal (Web)"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Acronym"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Address"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Cite"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Code"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Definition"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Keyboard"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Preformatted"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Sample"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Typewriter"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"HTML Variable"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Normal Table"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"annotation subject"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"No List"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Outline List 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Outline List 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Outline List 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Simple 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Simple 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Simple 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Classic 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Classic 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Classic 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Classic 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Colorful 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Colorful 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Colorful 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Columns 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Columns 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Columns 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Columns 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Columns 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 6"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 7"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Grid 8"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 4"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 5"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 6"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 7"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table List 8"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table 3D effects 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table 3D effects 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table 3D effects 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Contemporary"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Elegant"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Professional"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Subtle 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Subtle 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Web 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Web 2"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Web 3"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Balloon Text"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" Name=3D"Table Grid"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" UnhideWhenUsed=3D"true=
+" Name=3D"Table Theme"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Placeholder Te=
+xt"/>
+<w:LsdException Locked=3D"false" Priority=3D"1" QFormat=3D"true" Name=3D"No=
+ Spacing"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1"/=
+>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2"/=
+>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading"/=
+>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+1"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+1"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" SemiHidden=3D"true" Name=3D"Revision"/>
+<w:LsdException Locked=3D"false" Priority=3D"34" QFormat=3D"true" Name=3D"L=
+ist Paragraph"/>
+<w:LsdException Locked=3D"false" Priority=3D"29" QFormat=3D"true" Name=3D"Q=
+uote"/>
+<w:LsdException Locked=3D"false" Priority=3D"30" QFormat=3D"true" Name=3D"I=
+ntense Quote"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 1=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+2"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+2"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 2=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+3"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+3"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 3=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+4"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+4"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 4=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+5"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+5"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 5=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"60" Name=3D"Light Shading Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"61" Name=3D"Light List Accent =
+6"/>
+<w:LsdException Locked=3D"false" Priority=3D"62" Name=3D"Light Grid Accent =
+6"/>
+<w:LsdException Locked=3D"false" Priority=3D"63" Name=3D"Medium Shading 1 A=
+ccent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"64" Name=3D"Medium Shading 2 A=
+ccent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"65" Name=3D"Medium List 1 Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"66" Name=3D"Medium List 2 Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"67" Name=3D"Medium Grid 1 Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"68" Name=3D"Medium Grid 2 Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"69" Name=3D"Medium Grid 3 Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"70" Name=3D"Dark List Accent 6=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"71" Name=3D"Colorful Shading A=
+ccent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"72" Name=3D"Colorful List Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"73" Name=3D"Colorful Grid Acce=
+nt 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"19" QFormat=3D"true" Name=3D"S=
+ubtle Emphasis"/>
+<w:LsdException Locked=3D"false" Priority=3D"21" QFormat=3D"true" Name=3D"I=
+ntense Emphasis"/>
+<w:LsdException Locked=3D"false" Priority=3D"31" QFormat=3D"true" Name=3D"S=
+ubtle Reference"/>
+<w:LsdException Locked=3D"false" Priority=3D"32" QFormat=3D"true" Name=3D"I=
+ntense Reference"/>
+<w:LsdException Locked=3D"false" Priority=3D"33" QFormat=3D"true" Name=3D"B=
+ook Title"/>
+<w:LsdException Locked=3D"false" Priority=3D"37" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" Name=3D"Bibliography"/>
+<w:LsdException Locked=3D"false" Priority=3D"39" SemiHidden=3D"true" Unhide=
+WhenUsed=3D"true" QFormat=3D"true" Name=3D"TOC Heading"/>
+<w:LsdException Locked=3D"false" Priority=3D"41" Name=3D"Plain Table 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"42" Name=3D"Plain Table 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"43" Name=3D"Plain Table 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"44" Name=3D"Plain Table 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"45" Name=3D"Plain Table 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"40" Name=3D"Grid Table Light"/=
+>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark"=
+/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"Grid Table 1 Light=
+ Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"Grid Table 2 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"Grid Table 3 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"Grid Table 4 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"Grid Table 5 Dark =
+Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"Grid Table 6 Color=
+ful Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"Grid Table 7 Color=
+ful Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark"=
+/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 1"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 2"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 3"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 4"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 5"/>
+<w:LsdException Locked=3D"false" Priority=3D"46" Name=3D"List Table 1 Light=
+ Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"47" Name=3D"List Table 2 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"48" Name=3D"List Table 3 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"49" Name=3D"List Table 4 Accen=
+t 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"50" Name=3D"List Table 5 Dark =
+Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"51" Name=3D"List Table 6 Color=
+ful Accent 6"/>
+<w:LsdException Locked=3D"false" Priority=3D"52" Name=3D"List Table 7 Color=
+ful Accent 6"/>
+</w:LatentStyles>
+</xml><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1107305727 0 0 415 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;
+	mso-font-alt:"Times New Roman";
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1073786111 1 0 415 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 2048 0 0 159 0;}
+@font-face
+	{font-family:Webdings;
+	panose-1:5 3 1 2 1 5 9 6 7 3;
+	mso-font-charset:2;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-font-family:Calibri;
+	mso-bidi-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;
+	text-underline:single;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	mso-style-noshow:yes;
+	mso-style-unhide:no;
+	mso-ansi-font-size:11.0pt;
+	mso-bidi-font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-ascii-font-family:Calibri;
+	mso-fareast-font-family:Calibri;
+	mso-hansi-font-family:Calibri;
+	mso-bidi-font-family:"Times New Roman";
+	color:windowtext;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-family:"Calibri",sans-serif;
+	mso-ascii-font-family:Calibri;
+	mso-fareast-font-family:Calibri;
+	mso-hansi-font-family:Calibri;
+	mso-bidi-font-family:"Times New Roman";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 10]><style>/* Style Definitions */
+table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-ascii-font-family:Calibri;
+	mso-hansi-font-family:Calibri;}
+</style><![endif]--><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"tab-interv=
+al:.5in">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">A quick reminder&#8230;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">FSU Procurement Services and Information Technology =
+Services will be hosting the next
+<b style=3D"mso-bidi-font-weight:normal"><u>Procurement Orientation for IT =
+Professionals</u></b> on Tuesday, November 15, 2016 @ 9:00am in the FSU Tra=
+ining Center at Stadium Place, Room A and B.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><b style=3D"mso-bidi-font-weight:normal">Who should =
+attend?<o:p></o:p></b></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Those who are responsible for either purchasing tech=
+nology for their unit or recommending technology purchases should attend.<s=
+pan style=3D"mso-spacerun:yes">&nbsp;
+</span>Topics covered will include a procurement overview, including specif=
+ications, dollar thresholds, types of solicitations (e.g.: RFI, ITN and ITB=
+), confirming orders/signing of contracts, software purchases, P-card (prog=
+ram, cardholder errors, strikes,
+ etc.) and <span class=3D"SpellE"><b style=3D"mso-bidi-font-weight:normal">=
+<span style=3D"color:#CC0000">Spear</span><span style=3D"color:#E6AF00">Mar=
+t</span></b></span>.<span style=3D"mso-spacerun:yes">&nbsp;
+</span>Also covered will be the new Procurement Services Procurement Softwa=
+re/Service Checklist.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">See everyone next Tuesday!<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Yours,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Hans<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;color:#1F497D;mso-no=
+-proof:yes">------------------------------------<br>
+</span><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sans-s=
+erif;color:#1F497D;mso-no-proof:yes">Hans Meyer<br>
+University IT Managers/IT Professionals Coordinator<br>
+Information Technology Services<br>
+The Florida State University<br>
+</span><a href=3D"mailto:Hans.Meyer@fsu.edu"><span style=3D"font-size:10.0p=
+t;font-family:&quot;Arial&quot;,sans-serif;color:blue;mso-no-proof:yes">Han=
+s.Meyer@fsu.edu</span></a><i><span style=3D"font-size:8.0pt;font-family:&qu=
+ot;Arial&quot;,sans-serif;color:red;mso-no-proof:yes"><br>
+</span></i><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif;color:#1F497D;mso-no-proof:yes">Tallahassee, FL 32306-2620<br>
+850.645.HANS (645.4267) (voice)</span><i><span style=3D"font-size:8.0pt;fon=
+t-family:&quot;Arial&quot;,sans-serif;color:#1F497D;mso-no-proof:yes"><br>
+</span></i><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif;color:#1F497D;mso-no-proof:yes">850.644.0068 (fax)<br>
+</span><a href=3D"http://its.fsu.edu/IT-Professionals"><span style=3D"color=
+:blue;mso-no-proof:yes">http://its.fsu.edu/IT-Professionals</span></a><span=
+ style=3D"mso-no-proof:yes">
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D;mso-no-proof:yes">Self-=
+enroll in IT Professionals Blackboard site:
+</span><a href=3D"http://fla.st/1Rg8RrU"><span style=3D"color:blue;mso-no-p=
+roof:yes">http://fla.st/1Rg8RrU</span></a><span style=3D"mso-no-proof:yes">=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D;mso-no-proof:yes"><o:p>=
+&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><b><i><span style=3D"color:#782F40;mso-no-proof:yes"=
+>Be a cyberhero!</span></i></b><i><span style=3D"color:#782F40;mso-no-proof=
+:yes"> Build a safe cyberspace at Florida State. Your mission starts at
+</span></i><a href=3D"http://security.fsu.edu/Training/National-Cyber-Secur=
+ity-Awareness-Month"><i><span style=3D"color:#782F40;mso-no-proof:yes">secu=
+rity.fsu.edu</span></i></a><span style=3D"color:#782F40;mso-no-proof:yes">.=
+<i> #NCSAM</i></span><span style=3D"color:#1F497D;mso-no-proof:yes"><o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;color:#1F497D;mso-no=
+-proof:yes">------------------------------------<br>
+</span><span style=3D"font-size:18.0pt;font-family:Webdings;color:green;mso=
+-no-proof:yes">P</span><span style=3D"mso-no-proof:yes">
+</span><span style=3D"font-size:7.5pt;font-family:&quot;Arial Narrow&quot;,=
+sans-serif;color:green;mso-no-proof:yes">Before printing this e-mail decide=
+ whether it is necessary</span><span style=3D"mso-no-proof:yes"><o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-ascii-font-family:Calibri;mso-far=
+east-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family=
+:&quot;Times New Roman&quot;"><o:p>&nbsp;</o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_BY2PR02MB36327AE0EB3166FE1E522EC9CBB0BY2PR02MB363namprd_--
+
+--===============9215340890321520682==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Nolenet maillist  -  Nolenet@lists.fsu.edu
+https://lists.fsu.edu/mailman/listinfo/nolenet
+
+--===============9215340890321520682==--

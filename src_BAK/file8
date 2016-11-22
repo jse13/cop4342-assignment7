@@ -1,0 +1,321 @@
+Return-Path: <nolenet-bounces@lists.fsu.edu>
+X-Original-To: langley@mail2.cs.fsu.edu
+Delivered-To: langley@mail2.cs.fsu.edu
+Received: from mail.cs.fsu.edu (mail.cs.fsu.edu [128.186.120.4])
+	by mail2.cs.fsu.edu (Postfix) with ESMTP id 3DE7D4800DB
+	for <langley@mail2.cs.fsu.edu>; Wed, 16 Nov 2016 17:04:10 -0500 (EST)
+Received: by mail.cs.fsu.edu (Postfix)
+	id 17162F35E8; Wed, 16 Nov 2016 17:05:28 -0500 (EST)
+Delivered-To: langley@cs.fsu.edu
+Received: from smtpin.cs.fsu.edu (smtpin.cs.fsu.edu [128.186.120.196])
+	by mail.cs.fsu.edu (Postfix) with ESMTP
+	id 0166BF357D; Wed, 16 Nov 2016 17:05:28 -0500 (EST)
+X-Spam-Status: No
+X-FSUCS-MailScanner-Watermark-fsucs: 1479938649.55084@NkOoVV6OQfjP/sjPQjPnZw
+X-FSUCS-MailScanner-From: nolenet-bounces@lists.fsu.edu
+X-FSUCS-MailScanner-SpamCheck: not spam, SpamAssassin (cached, score=-1.891,
+	required 5, autolearn=not spam, AWL 0.01, BAYES_00 -1.90,
+	DKIM_SIGNED 0.10, DKIM_VALID -0.10, HTML_MESSAGE 0.00,
+	RCVD_IN_DNSWL_NONE -0.00, RCVD_IN_MSPIKE_H2 -0.00,
+	SPF_HELO_PASS -0.00, SPF_PASS -0.00)
+X-FSUCS-MailScanner: Found to be clean
+X-FSUCS-MailScanner-ID: uAGM45w4023187
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com (mail-by2nam01on0049.outbound.protection.outlook.com [104.47.34.49])
+	by smtpin.cs.fsu.edu (8.13.1/8.13.1) with ESMTP id uAGM45w4023187
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 16 Nov 2016 17:04:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
+ s=selector1-lists-fsu-edu;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=2y5VHw2NsXDhDCLkkrDDtCqNh7WSkr+zZEcXSk9R4GA=;
+ b=xSMn3guOo8qlTR9zrt+1YeR+eHTsWx4DwVy5bGAe94Z4ugio+SbOUaXecyWfDOl5NC7x9nUP3spn37GOgVVIwlazAX3Arhvgar/IuflbLtXpTELc43FBF9yeeUve9lp2ktw0EWyu5/mLf9vz8Vm9ezmrG2rudx7v56fjg0i3FeE=
+Received: from BN1PR02CA0038.namprd02.prod.outlook.com (10.141.56.38) by
+ BLUPR02MB035.namprd02.prod.outlook.com (10.242.191.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.707.6; Wed, 16 Nov 2016 22:02:37 +0000
+Received: from BN1AFFO11FD035.protection.gbl (2a01:111:f400:7c10::109) by
+ BN1PR02CA0038.outlook.office365.com (2a01:111:e400:2a::38) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.10 via
+ Frontend Transport; Wed, 16 Nov 2016 22:02:37 +0000
+Authentication-Results: spf=pass (sender IP is 146.201.107.138)
+ smtp.mailfrom=lists.fsu.edu; fsu.edu; dkim=none (message not signed)
+ header.d=none;fsu.edu; dmarc=bestguesspass action=none
+ header.from=psy.fsu.edu;foundation.fsu.edu; dkim=none (message not signed)
+ header.d=none;
+Received-SPF: Pass (protection.outlook.com: domain of lists.fsu.edu designates
+ 146.201.107.138 as permitted sender) receiver=protection.outlook.com;
+ client-ip=146.201.107.138; helo=lists.fsu.edu;
+Received: from lists.fsu.edu (146.201.107.138) by
+ BN1AFFO11FD035.mail.protection.outlook.com (10.58.52.159) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.721.5 via Frontend Transport; Wed, 16 Nov 2016 22:02:36 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:;UpperCasedChecksum:;SizeAsReceived:3933;Count:42
+Received: from lists.fsu.edu (localhost [127.0.0.1])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uAGM2YGg008879;
+	Wed, 16 Nov 2016 17:02:35 -0500
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-sn1nam01lp0117.outbound.protection.outlook.com
+	[207.46.163.117])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uAGM2XHI008875
+	for <nolenet@lists.fsu.edu>; Wed, 16 Nov 2016 17:02:33 -0500
+Received: from CY1PR0201MB0587.namprd02.prod.outlook.com (10.160.140.152) by
+	CY1PR0201MB0587.namprd02.prod.outlook.com (10.160.140.152) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.10;
+	Wed, 16 Nov 2016 22:02:33 +0000
+Received: from CY1PR0201MB0587.namprd02.prod.outlook.com ([10.160.140.152]) by
+	CY1PR0201MB0587.namprd02.prod.outlook.com ([10.160.140.152]) with
+	mapi id 15.01.0721.015; Wed, 16 Nov 2016 22:02:33 +0000
+From: "Hohmeister, Matt" <hohmeister@psy.fsu.edu>
+To: "'nolenet@lists.fsu.edu'" <nolenet@lists.fsu.edu>
+Thread-Topic: Upgrading RAID array
+Thread-Index: AdJAVJr9uCG1fbyaSjW2SpQ3r+xk4g==
+Date: Wed, 16 Nov 2016 22:02:33 +0000
+Message-ID: <CY1PR0201MB05876F5D2C96AE6E1FE3CD0F8ABE0@CY1PR0201MB0587.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.fsu.edu; dkim=none (message not signed)
+	header.d=none; lists.fsu.edu;
+	dmarc=none action=none header.from=psy.fsu.edu; 
+x-originating-ip: [128.186.181.156]
+X-Microsoft-Exchange-Diagnostics-untrusted: 1; CY1PR0201MB0587;
+	5:gl1MsuWPJlodD6KSIpi6a7/iN7s3BL0GXEw6VIdFjH5BdxWza7jfyw/u5UzYAi/hdvZclmNIS9wncagVK9ABRRAhVxv6pqy3ZcOVWgsgiPrXYpyYYmBNbmENke1sO65CXUuXx9LiQAfL98CnoSFmQQ==;
+	24:T/5EaDKEfj/o8sfTx1Z6s002I3vh9R8IWvCj1I8eMYUWw5s7p6bwpfRmyc6XOgWzpyCfHkUUxMoqG+Eo7uKbckJFBmDexca8PieJPMzKz4s=;
+	7:sglx25wH+JCr8j25IGudMDG578mDoMkDOl6Q83xCeegLsK6dhi3Omp+Efy0HUWUcsgdvKZ3GBIw67Dz/QIDsKq6t+09nNZmQpQJQDJNn7VQh/VscFz6Nxt7dV8S+BmcXbuq1sjQrmYSqtzbLzULzBa1YiGmp/luD9BYoubEYff9KhNZXVJvsLc+nhduCnGeGFon+6ST33XDyTDzTZiXBarPmuFbaAi/abD5KM9ap3kKl0ifXurLRid9RJb3oeDlKKOpyRqvSK1yhD6n26Ngu56GGeJXdLRv44oZdH46yGSaMqr/xBJNG+yeoBiWY5dB+FQyhAnYYyMoRVESaSQhCLjJezi59/qcfZv0MK3MOcSE=
+X-MS-Office365-Filtering-Correlation-Id: 924f824a-db56-4db3-e724-08d40e6c4688
+X-Microsoft-Antispam-Untrusted: UriScan:; BCL:0; PCL:0; RULEID:(22001);
+	SRVR:CY1PR0201MB0587; 
+x-exchange-antispam-report-test: 
+	UriScan:(21748063052155);UriScan:(129945304726314)(21748063052155);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(9101524098)(601004)(2401047)(8121501046)(10201501046)(3002001);
+	SRVR:CY1PR0201MB0587; BCL:0; PCL:0; RULEID:;	SRVR:CY1PR0201MB0587;
+ BCL:0;PCL:0;RULEID:(102415395)(6060326)(6040281)(601004)(2401047)(5005006)(13018025)(13017025)(13015025)(13024025)(13023025)(8121501046)(3002001)(10201501046)(6041223)(6061324);SRVR:BLUPR02MB035;BCL:0;PCL:0;RULEID:;SRVR:BLUPR02MB035;
+X-Forefront-Antispam-Report-Untrusted: SFV:SKI; SFS:; DIR:INB; SFP:; SCL:-1;
+	SRVR:CY1PR0201MB0587;	H:CY1PR0201MB0587.namprd02.prod.outlook.com; FPR:;
+ SPF:None;	LANG:en; 
+SpamDiagnosticOutput: 1:99
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0201MB0587
+Subject: [Nolenet] Upgrading RAID array
+X-BeenThere: nolenet@lists.fsu.edu
+X-Mailman-Version: 2.1.15
+Precedence: list
+List-Id: IT Professionals list <nolenet.lists.fsu.edu>
+List-Unsubscribe: <https://lists.fsu.edu/mailman/options/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=unsubscribe>
+List-Archive: <https://lists.fsu.edu/mailman/private/nolenet/>
+List-Post: <mailto:nolenet@lists.fsu.edu>
+List-Help: <mailto:nolenet-request@lists.fsu.edu?subject=help>
+List-Subscribe: <https://lists.fsu.edu/mailman/listinfo/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=subscribe>
+Content-Type: multipart/mixed;
+	boundary="===============8206988781504997998=="
+Errors-To: nolenet-bounces@lists.fsu.edu
+Sender: Nolenet <nolenet-bounces@lists.fsu.edu>
+X-IncomingHeaderCount: 42
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: BN1AFFO11FD035.protection.gbl
+X-Forefront-Antispam-Report: 
+	CIP:146.201.107.138;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(6009001)(7916002)(2980300002)(438002)(176002)(199003)(6262002)(156002)(189002)(4610100001)(92566002)(7696004)(189998001)(575784001)(2171001)(109096001)(84326002)(107886002)(19810500001)(47976999)(76806002)(9036002)(87936001)(9686002)(88552002)(122556002)(66066001)(54356999)(89122001)(33656002)(260700001)(6506003)(106466001)(110136003)(8676002)(76786999)(78456001)(50986999)(8936002)(99286002)(42882006)(146002)(76576001)(2476003)(2906002)(626004)(75432002)(89386003)(7416002)(512954002)(5660300001)(3846002)(270700001)(6116002)(2900100001)(77096005)(7736002)(356003)(790700001)(102836003)(7596002)(246002)(8666005)(74316002)(7059030)(24616003)(491001);DIR:OUT;SFP:1101;SCL:1;SRVR:BLUPR02MB035;H:lists.fsu.edu;FPR:;SPF:Pass;PTR:lists.fsu.edu;A:1;MX:1;LANG:en;
+X-Microsoft-Exchange-Diagnostics: 1;BN1AFFO11FD035;1:MCgrbJJo/fMdfq0RxyUurxsllXl/Ke1Vo9n5yWnycR/zgED1FaOlZrYfUy2W1ME9X3O7otYR0oaXkkaHW2n81I+V4YdCkSsVYjlmTpb3qJi/ovVP9CkP50Q0RBZ34OHXI2JTuLRzndNtoaoY0pjQJzoazSuZV7UkVaaZ9VmZZHz/c8DUJncxLyy3siGPLxM3yhTWjbdEa90HHMzQcylBPoezsY5FRpN1q1rzh3O8hsa+xCCzM3CE7hu6HVeFJ4aQbeH3wJeniny5nUKOx01T+ItT03BR9qOr/IVhDjUTD4NtXHtx0l6ePNLiSrMl9czYJasnJX4+u6yh9+a1iArZ/joFHNEAgOKrTCTZqZ1RcPqg/CzrT12gctz5H7wm5xlj0aF7yPC2LMGmGl5d+Nfhrb4JusZk+RyHkeQDgfMIQH75sPu477LakA4kDGXRdtr6hCFdepEe/MZGItTP2r3JZV/NEcqzzAUe7redtSWmxOPJpZanp9YtvkTpSgH/pP7vc7TrM4wl2f9U5rY6hvQ58fO2TAYSBFAuP5nQqWHI9ErLim+cTmZUuPJi+6Um6qYNr36wgG2qQSMqeswdTlIO+UEOmogZ5RrZsiHlh4f/F9c=
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;2:tGzk7BLM2m/9XpEk/hdNG1FwVNOOJ89sH7RwTzaDrzqbj9imE8pHDPWtHNTf9jz4FtwXlGRgVyFRq/EhYpc3/IS4pwCyWwppOhk7Y6pcEIMO0QWBfimguUXgIOrFK7xuoFC1gsbiN7Xt0EYozF2G0RSjiLZAld/cru/TN1x+U6o=;3:csvRjijV4j51cDMSLcadCfYHf3ToGaISQcAtw7t+l8hXJSWL/KU31CJ2Ygd6ZbrW2MDqQtRN+ryEU4GqBqwIGRUKQmaMrt+F3QWqldcloVFZaj37BOqVCp7cA60RgMM3hQ6n19N0FCPFKfGYJVkL5sUM3lQMNqeyku2fD2TXTIzJzzfdz22+bdM9tPDtGH6x5QCScMvutYYa/cTz7EhF5H8bJuvgmHZZ/wTAOwjgkXNjTErWbhOLAy/YGotHRVB8d/pYxvS+Jg34OX8X8JFWGSouEpdbOA1WVuch4ZZpb4Or3mrs3+GisRqSGST8hqvWW9CytsdT9Hi2P/vCfRKVDQ==
+X-Microsoft-Antispam: 
+	UriScan:;BCL:0;PCL:0;RULEID:(22001)(421252002)(8251501002);SRVR:BLUPR02MB035;
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;25:EVo+RDW7/y3SJVcnNORYbavDsfWBjVbfkBHWPkeiwH/g7rYbWEVzPY6lOihlm3AMkHo+TAXdwTg3kahS72wNLlb4raOGKs6X9iSIvRGl4dQ1hfI56rE/govTGR5jsvxFPI56Y1E7uOmGmPk1X+bv7zul4J7QCd16bQ8cN6bQrXyZ/M0Z7PoI8SUdocED7mpgAsJo45psqEDolt+jpzgZehEUhag05MUfMGN3ZWgfjQ0YOZVcg5jrhIkTTuUPnFS0H+CL+JJMCiLlaU+5V93AifnTz1PQ0Z+5UL8DQdUUsE5QxgUc7HhO7JQqMnDt3d9yGAP4414R5CyBzqV505JnBQC0TFuZRHxRbqjBSgyqUxaxc3fnpt8S7OVMfAksCyLj7gGHJtGJJNrliikWx8q12HaEX3KzRxpi1GOBSBfKhAYnvimj+uAUgXJCzeyH9QfQ6XC/8E0sD5kGde0MNDd+qfPcj/XkVupTB6cL8ogrqJ2JPgEc/j+UkTZsA1sF3l9VHCmDSxSkXGqc9Va1oSITQW7oBHt4gVRm3ku3iTV11Uo=;31:dZxV47Puph4o0tywXT32n9EfV3rXAl8fWehizDiuRK/bavD4meJo3Yxn0oI6PvA1z8cYnhFE1SK1/meeLnlPEjXLM0kriXatOUQa9G+VcIR37/f3+0mvOsiRvRMoAfBFDcGG+98QlsFNa1IlmLXyWO5/xvt8aBkwigfGsPYEf1HAtOCIUn6pkcKIt3zh1/g5REWNtPaIU2ZqnkK2p7yNACjn+x11YyqIUXC24SPkasoBbuofQwEgSzAP/XE/wvf95y6FbTS2TSeZs6K2Aom1/H9C8PGw7h2oLjBHL8ECBm8/TDRR1UecTnX6Wo8BHme5
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;20:4HkRPllaXSrA7k0eSIoRXdwvM0/pQALijMHaKPe3+lHrUz3Kva6kRPuEUJvfwR5KSe+OqxD0Cn41bsZvapo4Dxc+YMPHYR/0W8SkkNrWMz/j1bjKYQoa/P3Y3/lBRoAmlK5KoE+15izoN0SNMAA+MkmKeujJ865+7IeYyMCfmhbfpqoKEMX8yEY/J1+dFlyH9TbfsWm7/uJZE3uMui9rmWwc6g2QLIygb2ozLYwk9n03DhZK8FV1x7MKHrKEa+3Ndu/dp20+QG3P+K1FGJ6nc7ce3Q22mJCc9IW7osCxSFvKq6ArW3HiqcStBo47xMt8U+beR8HYzouC5NodlLHfablHzzAVZ9klFwZEEStLMArTULG0kFKMnBIJ0Wxx20Sy1asCncJSr8r14Q9NRz/o6xZeJhhCV1nMbszpv9NCEom5qWtfSQCCxeRSM2kYZppPJY85OPN7s0r7iCjBHn6V8bMZQXRWlFhLBQcrjLki4FusXmJlWO4+6zff/tmvIRqw78kKZy6TYpZtgDE8efJdyIMUtMR1KKk3zEWPf1FGtFYoQCJu989gCyABKqeAEv4WrVJXIs+TAUnVfUDjs8ELsVrwvXpEkJ7w4KvwdWRLTn0=
+X-Microsoft-Antispam-PRVS: 
+	<BLUPR02MB03564681107E4F46C472CD5A6BE0@BLUPR02MB035.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;4:b3906rgM9jz64OIF8zcJvQQyf0rS0EKNhJMH7K01g63q33rlR9jIY+unPgE9pTI2jjeCJEvxLl8+tkR8Or4U97PKSBns0wje5DrUe0HPXJ8Q9pHK9CCdVsIEvITbm9FKM81zTdhdr9wskSYmjI0YZmouKz1jPeNAvDtqVPSUfo/MbeUUeWIJDZ3YRufAYELXLiquXnQpuCEoazYwRjmP/o7EOPI6SpMkFG1Ylh4yrhzX+ZfpiI4HZwLnXMs6kSvXl4NoeYVFbT+AXEs6vAlYXwq65jm0dC7nNQtbEtB5oyqmHf0ABi6aTiD3Kl8V6MVpo83pKFRMKj9FhGfdTg0XOosDbiy+LtTfpnW4S0xs8Gmt9NxDj9ccpjXq4tFM+8SSYkuSe2/ECGpPkhTkM8OjOFRgW6SrWL08cvsx2PUpjqdzNCIdgDIPAyl7w8ZcsbACNhnZo/Am3db94KXpBQ8Ni3dpAaBE16Bz5VfTkQOWqrsSxxXZm4gdvbDK7+JG+IKyepzGyg5jGxIjVAto5OwxpsskZj81wdJzAliTHYf7IiginiRHRPrJ0o++BQI09NOPR9pJ+G7B7cJBMyYEbVvEQkhHNjFYPUX0Baeniu2TcyZYw5rgYT4pQQU2QtKvarOEuz5h8EjRrPF730bLRXoNjw==
+X-Forefront-PRVS: 01283822F8
+X-Microsoft-Exchange-Diagnostics: 
+	=?us-ascii?Q?1;BLUPR02MB035;23:f78ru9H3CaRhPf2u2NmWOyInW8TwNfETI4vQuhytSQ?=
+ =?us-ascii?Q?3yl6m7Wwn9si0wUm08wdhOMIHjDQvfIqvyYlCuJ2OxIWJVifwB7dHSDYG6jw?=
+ =?us-ascii?Q?OhhjybK9UANLI06otv1ADP0t9yXQowNcXSU3Zr6ZsLzCxuYLD7DytjkCL21X?=
+ =?us-ascii?Q?+lpsbPvB28qA1xZ7uRjze0gTdHcLFOJqloK5OlfLth///RC8gwo2UeGsyX1+?=
+ =?us-ascii?Q?qH7BBMa8iI2UGE8VTy+5nrPqi4V3xOM0uRwVmFDQ4wD2Tbptlj6ruyS8Akvu?=
+ =?us-ascii?Q?xadpuoq84H82II+nZ24XGw3jpTBcL/bSobUffSBG32VBFI9ogwrsX2U/YKWS?=
+ =?us-ascii?Q?IQF/nse9lDeBgc16WjthFREwKeB69yErWSP22HoygbJHflOklSmYcXxghVoc?=
+ =?us-ascii?Q?ULKsMOeR9PM6sKnNy1lSkkQzYvu89qxmmwHwLm2E791rOXecXL/1W0M5wo6J?=
+ =?us-ascii?Q?niRB3vBG2KBNFyZRuFozuziAzo8O4F+RvE/IE+8zunF1eUrgIhdt3Y3XnpGq?=
+ =?us-ascii?Q?3Tq8CuIWzZP3B9GiLaK1YEM6PbEYO2rcgEkXWsCljyMIiJT1wsQj+xqV5MsZ?=
+ =?us-ascii?Q?NQhuCzuH4IjhLW62J+ZMuGpazJQ0tg+4BGSFtR4Z3SqXhJ/m/LXXuZUxL5O/?=
+ =?us-ascii?Q?x7Gu1b7HYbdkAoagYDinZL18UHpNRWtVUlduaqrDB+X3rEMamYic7dFnU11O?=
+ =?us-ascii?Q?WLwluu2YJiHDZNMsFUbn0ZkFg+g/qJZMkCz0TkQ4T/RSQYCVjFfxh92Oy0D8?=
+ =?us-ascii?Q?vO/hE2eadwDflmRsQApedFqs6tR41TI/qlaSPPd/xip4cwh8kmUAdAeLtX+n?=
+ =?us-ascii?Q?GHIyb/CJOyQWwp4kMw98+mciOuCHgJu5ItwGAU3I6U/3F7RaNkH/5xqaWp5t?=
+ =?us-ascii?Q?3s3OHZPVAgn2wU8jJozSfHpFH6oHWlqYLlWhm/n6tuwHfyJ2XceRrC3V5bKf?=
+ =?us-ascii?Q?uYY4n0gk3C//dt0O5zCiYZGZcrllcFr9CqwcizJ6Zg1PQ3hBRd5krdU9v6W0?=
+ =?us-ascii?Q?lXi5Mi/30EhAMj51BU/JTnTkDVDJLD0fPbaWbH/eW8zbeMXycnQrAFGkvuId?=
+ =?us-ascii?Q?AsZriW7I6Z+lBGy+reeO391VqiB/r4GDBZPIPRMyD6HCD9YkKd0ITcbQPx59?=
+ =?us-ascii?Q?GZBYKmM5v4tuwJkgqhVzq5nheD+FtjXWOXr+cgBz7QqeqNywyBY5V4E3QRxP?=
+ =?us-ascii?Q?kz/r6ICXXMUyx1td/CHey74RLPSMBoihUqF9NvcNsZlfucagY+P2iehDUDZW?=
+ =?us-ascii?Q?1E5J1ffmAufGjqggkjhj4A6jImvu3Mn3AWVBT+Pp4XpdHrEoqJNvHXOzYFkz?=
+ =?us-ascii?Q?JiLhQ5t+jq7ZfsbZKHNlDCoJX/9+WfvYdV0Svz/lc1asH0bJ7bI4aIx9Aaoj?=
+ =?us-ascii?Q?bVxlNsorep5oFFV9QFGN3vWUEiCsrEbRpEqOCA+MT2VltmOBPQft9XWXkMMS?=
+ =?us-ascii?Q?ysdKJxjWVl0QDJ70mGtQf5Z7HvuMXFF2qcxFRZ9gG//W620YOGB3ILJmCrA3?=
+ =?us-ascii?Q?v15Bb53QL7GlkLIPeXiC09vxAhoOU6pWc=3D?=
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;6:JmNQXqiNM0VLK7mSlnxRD63LhowXrR+0l8VO4McOgxa8G8rZXiEgxyMcQoB8+tLELOeI7b8nHodu0bY4HP3Xrny7pSdfUEpxCu10dJJpKw6kOXHYPYrdDKPCcEDQDa7FoaDmkPmHlCGsCYJcdlBmkt6PReNMRRNFY9xtgW0PSGPKgTGLB/PvfBOSD7Ud3l58yEqf38xM4E9Cd5kM8wd1QYkreTmpaa29pMKyqN3OPEM4Sia/37hpmXtkRQLLbtczSRJoTa9kMuHVpRbvWKeBglimaQFJqziNSt62sbyCfDx6PEFlqkpip5sgvANn2bsfy/rDAEij2RAXiUw8bN8u22QFWcE1Z7yjMswN98Yatng=;5:cPL3aXWYSpBkqL3oIgV2+gL9U+W7WBDapo/Ys8QciQZJWa3rvdGI3IXzeQqNY8/FpxRPcSNoEW1rBpTgCJdRB5DGJDMzLdKMkwOgfQJgAsgC+nII+mUW6hv85OVhRNdgsjEne0fUfVcwKEVcSwrBJw==;24:ozNURyOSkz6I2AfYSKc0UpqeJajF2lylkR9KUrqq6QR56mjnHIS8e0Jhza1jCOSP8MGjcBwMHge99Pk3Ar+5qcDUsf+x6XbzAIQClnimNPQ=
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 
+	1;BLUPR02MB035;7:tMP/h2xjg8Rqy3wGccZokpM8IcI6CBRpoJUy18ovgJOGrFTf0Q9JkwhEd34/kzanQwAIyY2X4pvmnlFFVsS4d7T7EV5d1LLiAzfHJLXtm3e28Ftzei06KpgTLeN0L4MvU0u6hljAYqM4tclKzjit8x3aeZ/AfSzuELQ/7SQXj2zZgZC3bNPwjnsZpp4OYjApg4BCfxygxr1M9cj4kFQ3zGWl4auPx0X/phd5dh3QnRl7IKWAQaDOSNLnW6tAnVd5hJKfDDvyicFbnbjPX4Vxn8ck2wRgpxp4fjy+a8uvGMq4exuHwW1N2O+kD1tughAYWmAgIqOapzd1/tHMeexfHw2rM6uij+oPjntH95fTInQ=
+X-OriginatorOrg: lists.fsu.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2016 22:02:36.4036
+ (UTC)
+X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.138];Helo=[lists.fsu.edu]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR02MB035
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3 (smtpin.cs.fsu.edu [128.186.120.196]); Wed, 16 Nov 2016 17:04:09 -0500 (EST)
+
+--===============8206988781504997998==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_CY1PR0201MB05876F5D2C96AE6E1FE3CD0F8ABE0CY1PR0201MB0587_"
+
+--_000_CY1PR0201MB05876F5D2C96AE6E1FE3CD0F8ABE0CY1PR0201MB0587_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+All-
+
+If you have a RAID 6 array, is it possible to upsize is by replacing the dr=
+ives one-by-one? We have a RAID array full of 2 TB drives, and the people i=
+n charge of it are interested in replacing them all with 6 TB drives. We we=
+re wondering if the following procedure would work:
+
+While ( Array still has 2 TB drives in it) {
+Array fully build
+Remove a 2 TB drive
+Install the 6 TB drive in its place
+Rebuild array
+}
+
+Thoughts?
+
+Thanks!
+
+Matt Hohmeister, M.S.
+Systems and Network Administrator
+Department of Psychology
+Florida State University
+PO Box 3064301
+Tallahassee, FL 32306-4301
+Phone: +1 850 645 1902
+Fax: +1 850 644 7739
+
+
+--_000_CY1PR0201MB05876F5D2C96AE6E1FE3CD0F8ABE0CY1PR0201MB0587_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+Subject: [SPAM]
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">All&#8212;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">If you have a RAID 6 array, is it possible to upsize=
+ is by replacing the drives one-by-one? We have a RAID array full of 2 TB d=
+rives, and the people in charge of it are interested in replacing them all =
+with 6 TB drives. We were wondering
+ if the following procedure would work:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">While ( Array still has 2 TB drives in it) {<o:p></o=
+:p></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">Array fully build<o:p></o=
+:p></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">Remove a 2 TB drive<o:p><=
+/o:p></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">Install the 6 TB drive in=
+ its place<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin-left:.5in">Rebuild array<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">}<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thoughts?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks!<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Matt Hohmeister, M.S.<o:p></o:p></p>
+<p class=3D"MsoNormal">Systems and Network Administrator<o:p></o:p></p>
+<p class=3D"MsoNormal">Department of Psychology<o:p></o:p></p>
+<p class=3D"MsoNormal">Florida State University<o:p></o:p></p>
+<p class=3D"MsoNormal">PO Box 3064301<o:p></o:p></p>
+<p class=3D"MsoNormal">Tallahassee, FL 32306-4301<o:p></o:p></p>
+<p class=3D"MsoNormal">Phone: &#43;1 850 645 1902<o:p></o:p></p>
+<p class=3D"MsoNormal">Fax: &#43;1 850 644 7739<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_CY1PR0201MB05876F5D2C96AE6E1FE3CD0F8ABE0CY1PR0201MB0587_--
+
+--===============8206988781504997998==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Nolenet maillist  -  Nolenet@lists.fsu.edu
+https://lists.fsu.edu/mailman/listinfo/nolenet
+
+--===============8206988781504997998==--

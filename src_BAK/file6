@@ -1,0 +1,306 @@
+Return-Path: <nolenet-bounces@lists.fsu.edu>
+X-Original-To: langley@mail2.cs.fsu.edu
+Delivered-To: langley@mail2.cs.fsu.edu
+Received: from mail.cs.fsu.edu (mail.cs.fsu.edu [128.186.120.4])
+	by mail2.cs.fsu.edu (Postfix) with ESMTP id 12C9D4800C5
+	for <langley@mail2.cs.fsu.edu>; Mon, 14 Nov 2016 09:40:24 -0500 (EST)
+Received: by mail.cs.fsu.edu (Postfix)
+	id BC541F36D9; Mon, 14 Nov 2016 09:41:40 -0500 (EST)
+Delivered-To: langley@cs.fsu.edu
+Received: from smtpin.cs.fsu.edu (smtpin.cs.fsu.edu [128.186.120.196])
+	by mail.cs.fsu.edu (Postfix) with ESMTP
+	id A6D67F36CF; Mon, 14 Nov 2016 09:41:40 -0500 (EST)
+X-Spam-Status: No
+X-FSUCS-MailScanner-Watermark-fsucs: 1479739220.40891@blGLGhj0EuQgeIVc233Byw
+X-FSUCS-MailScanner-From: nolenet-bounces@lists.fsu.edu
+X-FSUCS-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+	score=-1.905, required 5, autolearn=not spam, AWL 0.02,
+	BAYES_00 -1.90, DKIM_SIGNED 0.10, DKIM_VALID -0.10,
+	HTML_MESSAGE 0.00, RCVD_IN_DNSWL_NONE -0.00, RCVD_IN_MSPIKE_H3 -0.01,
+	RCVD_IN_MSPIKE_WL -0.01, SPF_HELO_PASS -0.00, SPF_PASS -0.00)
+X-FSUCS-MailScanner: Found to be clean
+X-FSUCS-MailScanner-ID: uAEEeGvT012664
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (mail-cys01nam02on0074.outbound.protection.outlook.com [104.47.37.74])
+	by smtpin.cs.fsu.edu (8.13.1/8.13.1) with ESMTP id uAEEeGvT012664
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 14 Nov 2016 09:40:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fsu.onmicrosoft.com;
+ s=selector1-lists-fsu-edu;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=RjwRswcxycydADi3xKYHkart3v0zmg/pCnDlwbGdv5E=;
+ b=m8kJuVwL3pgWk1t4mvpmcEk++JW/3r54hvUrWvU+iCi94jATtW2oEvo/qYkZvaNGmpOpRij0ymlJ1IF5+rYk1Nbdb3tfI4Z3uDfbbf6sTCtTxVJ+kuQsX9GGT24LIue08AdTbYIvXffo9zreXGlqkK7bTMaHQS2+7sKeddLYQ28=
+Received: from BY2PR02CA0102.namprd02.prod.outlook.com (10.163.44.156) by
+ CY1PR02MB1689.namprd02.prod.outlook.com (10.162.161.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.721.10; Mon, 14 Nov 2016 14:40:06 +0000
+Received: from BY2FFO11FD003.protection.gbl (2a01:111:f400:7c0c::137) by
+ BY2PR02CA0102.outlook.office365.com (2a01:111:e400:5261::28) with Microsoft
+ SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.10 via
+ Frontend Transport; Mon, 14 Nov 2016 14:40:06 +0000
+Authentication-Results: spf=pass (sender IP is 146.201.107.138)
+ smtp.mailfrom=lists.fsu.edu; fsu.edu; dkim=none (message not signed)
+ header.d=none;fsu.edu; dmarc=bestguesspass action=none
+ header.from=psy.fsu.edu;foundation.fsu.edu; dkim=none (message not signed)
+ header.d=none;
+Received-SPF: Pass (protection.outlook.com: domain of lists.fsu.edu designates
+ 146.201.107.138 as permitted sender) receiver=protection.outlook.com;
+ client-ip=146.201.107.138; helo=lists.fsu.edu;
+Received: from lists.fsu.edu (146.201.107.138) by
+ BY2FFO11FD003.mail.protection.outlook.com (10.1.14.125) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.721.5 via Frontend Transport; Mon, 14 Nov 2016 14:40:05 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:;UpperCasedChecksum:;SizeAsReceived:3983;Count:42
+Received: from lists.fsu.edu (localhost [127.0.0.1])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uAEEe3T9001011;
+	Mon, 14 Nov 2016 09:40:04 -0500
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-sn1nam01lp0117.outbound.protection.outlook.com
+	[207.46.163.117])
+	by lists.fsu.edu (8.14.4/8.14.4) with ESMTP id uAEEe13K000992
+	for <nolenet@lists.fsu.edu>; Mon, 14 Nov 2016 09:40:01 -0500
+Received: from CY1PR0201MB0587.namprd02.prod.outlook.com (10.160.140.152) by
+	CY1PR0201MB0586.namprd02.prod.outlook.com (10.160.140.151) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.721.10;
+	Mon, 14 Nov 2016 14:40:00 +0000
+Received: from CY1PR0201MB0587.namprd02.prod.outlook.com ([10.160.140.152]) by
+	CY1PR0201MB0587.namprd02.prod.outlook.com ([10.160.140.152]) with
+	mapi id 15.01.0721.015; Mon, 14 Nov 2016 14:40:01 +0000
+From: "Hohmeister, Matt" <hohmeister@psy.fsu.edu>
+To: "'nolenet@lists.fsu.edu'" <nolenet@lists.fsu.edu>
+Thread-Topic: Network printers - erratic behavior
+Thread-Index: AdI+hFUjOVwynBQmR9yxl634E+QoaA==
+Date: Mon, 14 Nov 2016 14:40:00 +0000
+Message-ID: <CY1PR0201MB058740F2FF5D8CC311B631E88ABC0@CY1PR0201MB0587.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.fsu.edu; dkim=none (message not signed)
+	header.d=none; lists.fsu.edu;
+	dmarc=none action=none header.from=psy.fsu.edu; 
+x-originating-ip: [128.186.181.156]
+X-Microsoft-Exchange-Diagnostics-untrusted: 1; CY1PR0201MB0586;
+	5:TOoYIvhwLFnV5NhavWrR2rKDFPQQdkUZpKb12c/aA5Q/lzu4D8ZgskRcZoiJRy7vyQA5EwLPu8gSjtXwbLjLaDWeR+vH6TzdIH6rmaBN7fzwfVTxcYHkody7fAHYXRj9zES7APQo8TveCF1uIeC46O9wfGcqUWHQAkqv2sEPri0=;
+	24:STNZby0MDjuZ7gw54xYB12VfA6fmimx0yGPTdFEvVJxdKOCTq7+6OWkDjhKi17Rwbr2PBIecyfy4fPWKsA6/Noeiedq67a1cyqJUjLwhbQ4=;
+	7:Qhs2CRgAIG7P4JZskM0fJzDFQXfR/d8iUrCVZWC3ttqXMVqqOxPKx54G1Gcb1ojs4NU2ht5v+xlUHqATBCIzpdBvmOe9WSbIxgmNjidb7XvCrsE9F/c+qCBCe6vK/algk5w9pPhVg44ocJF18WTXo2Kd2MgP/0KPVkovmxpOoI1KhDiuUOKQs3WvFFyWK7V2OdaoRhjnjGfRUWb5dBkpygzoMtuoAWoG8o8RiLmnbvlx86x79KFryu23KRFjakvvlAcKiuzirxxu2PWs1WWvvmEm0L/FWZOILX6h2X9viXsOcHOowBvaVB9B8NBj7kjucNcymRHL/KU8hOPpKilz/MUuUIZgpWSMsr3wbAWtZmo=
+X-MS-Office365-Filtering-Correlation-Id: c16a3e1d-bc20-4b56-6030-08d40c9c2036
+X-Microsoft-Antispam-Untrusted: UriScan:; BCL:0; PCL:0; RULEID:(22001);
+	SRVR:CY1PR0201MB0586; 
+x-exchange-antispam-report-test: 
+	UriScan:(21748063052155);UriScan:(129945304726314)(21748063052155);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(9101524098)(601004)(2401047)(8121501046)(3002001)(10201501046);
+	SRVR:CY1PR0201MB0586; BCL:0; PCL:0; RULEID:;	SRVR:CY1PR0201MB0586;
+ BCL:0;PCL:0;RULEID:(102415395)(6060326)(601004)(2401047)(5005006)(13024025)(13015025)(13018025)(8121501046)(13017025)(13023025)(3002001)(10201501046)(6061321);SRVR:CY1PR02MB1689;BCL:0;PCL:0;RULEID:;SRVR:CY1PR02MB1689;
+X-Forefront-Antispam-Report-Untrusted: SFV:SKI; SFS:; DIR:INB; SFP:; SCL:-1;
+	SRVR:CY1PR0201MB0586;	H:CY1PR0201MB0587.namprd02.prod.outlook.com; FPR:;
+ SPF:None;	LANG:en; 
+SpamDiagnosticOutput: 1:99
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0201MB0586
+Subject: {SPAM} [Nolenet] Network printers - erratic behavior
+X-BeenThere: nolenet@lists.fsu.edu
+X-Mailman-Version: 2.1.15
+Precedence: list
+List-Id: IT Professionals list <nolenet.lists.fsu.edu>
+List-Unsubscribe: <https://lists.fsu.edu/mailman/options/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=unsubscribe>
+List-Archive: <https://lists.fsu.edu/mailman/private/nolenet/>
+List-Post: <mailto:nolenet@lists.fsu.edu>
+List-Help: <mailto:nolenet-request@lists.fsu.edu?subject=help>
+List-Subscribe: <https://lists.fsu.edu/mailman/listinfo/nolenet>,
+	<mailto:nolenet-request@lists.fsu.edu?subject=subscribe>
+Content-Type: multipart/mixed;
+	boundary="===============0706941216276536161=="
+Errors-To: nolenet-bounces@lists.fsu.edu
+Sender: Nolenet <nolenet-bounces@lists.fsu.edu>
+X-IncomingHeaderCount: 42
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: BY2FFO11FD003.protection.gbl
+X-Forefront-Antispam-Report: 
+	CIP:146.201.107.138;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(6009001)(7916002)(2980300002)(438002)(336003)(199003)(176002)(156002)(6262002)(189002)(2906002)(50986999)(6116002)(586003)(78456001)(3846002)(102836003)(92566002)(790700001)(19810500001)(2476003)(88552002)(189998001)(2900100001)(87936001)(8936002)(9036002)(107886002)(77096005)(2171001)(76806002)(110136003)(9686002)(76576001)(146002)(7696004)(33656002)(84326002)(7416002)(74316002)(5660300001)(42882006)(575784001)(75432002)(122556002)(246002)(7736002)(626004)(270700001)(7596002)(4610100001)(66066001)(260700001)(512954002)(99286002)(8676002)(47976999)(106466001)(54356999)(89122001)(109096001)(76786999)(89386003)(8666005)(356003)(7059030)(24616003)(491001);DIR:OUT;SFP:1101;SCL:1;SRVR:CY1PR02MB1689;H:lists.fsu.edu;FPR:;SPF:Pass;PTR:lists.fsu.edu;A:1;MX:1;LANG:en;
+X-Microsoft-Exchange-Diagnostics: 1;BY2FFO11FD003;1:N/XfSQnRYZ0GjAXGZAL2USCQU4vUky5LUYZTHMhUv1s1QS9v6hf1nXWFtn/Gt7FynoOA7GewSSQYxcn3iOS7uQgdvyl1MeZnBfNi+kGPyNuagz+B1twVtzOhszrMw08hUYjxZ9hgcmfUP+XWqk0QJkrqIViNfTGf9OduAHyR6N4Ad9uv1GLM78rgvCsEHa2VSNL1kQkcO90Io3rRj5P/AHOAWvL0TkEwh3y8Vv3u1UGL7SbF3qKu194XRfixYwW+4+oWfCsWGgrRquakO2K8eY2/X0o3/UJBmzZT3UnTmwKkIHj6KDhC2UpfBVsVuomTxWWGVJpNecQabaq9NljXb5D83WdL8ccDHS9K7KQePkNPS1nFXFU6Jl73L8gqm+OMFg2T7MWWpfZsfRHCJV65JeBjtzSrRLIz+TPBL/oqlXQYzI3FXP697cx8Q0y50P+btQDw+DIEx5J7VFJz/xJzBx/VCPrfyMOYjr3urMa/gW1T+MgbJ2Koxq2XNnEPwf3N3ZJ56VXlc5gRQ8grxcj01nYf69k2azQM2kU9icyR87GMHK2Q+em5AQIXSPnOAFXYaznCXCnVw1Q+DaIpu70g5z2bPWrKaVvgny5XqUnDbnA=
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;2:x59wD92GYGAuLq4FsUd/IoZ17UfOJbjGv4CEixWbR4O3MRIjydmcnqVDjnqSpuA9BigcZl1t/PZ/Yy22fh5ocjZ6MJMQE7oOKuYfPHnDXvN8rrKAqZf88YlWC2+nhFpMv4Yswop2L64ZytUqLbh2GeJw1Lj8L7Xcbz2cxuU2JR4=;3:Bk1EKKiCxo5/roUsVZEZIyXJ7RANll66I4BMEsVjvkC9RFoMtR+QW8zle61jUxm5sxXFtr75JN9nhj7p+n1T08MLbfZAJnN4xWx0Je1Re+Xew0apGRNHZ+nu+N9rk6WGdMY7+l1xy9Pe7I4ViGCsqizF5YvSPTp/nTCzGqwCuY3QuBBhdAW2aHxmk/o8IF4GN6/RBoa41tQukZOoV+Bn1CVS2ghvmpLiag1HI5CQGjl5gRBSR1wfQ/nBGBXAGHfOGIhoDqNl++lM7zPTWRDIK6kIS82TywDDubGm5LcOwtV2a5r3kWFSoKLeUTZvPVEPdKLhwnJ1yprjpW/dkZnaBA==
+X-Microsoft-Antispam: 
+	UriScan:;BCL:0;PCL:0;RULEID:(22001)(421252002)(8251501002);SRVR:CY1PR02MB1689;
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;25:mx1yMhPGIH3GwZbPRTe24XO3XqLcSj5yWidmJwOEh27Lft3LPxu5PhCZcbGm5QzpeudPL+VRmCRf7Ea6knAvm2R0sPRfYUNEGtOybJUSvFAVp/u8wiTUPUzbHKLaaLbPVXn65yhZd767ZsqpskCP/FlMK1PIAR23YbAy7/r9kXuKI1Spc799fTUw2sIQs7DdfyJeCx23Dgr/nuPVk1ASI4YW0Sy+OsvfRLJ9/Z4C+Txp/IDmJwX/dz8WmglasJ9Jyf7CplvXDjiNe2YS9x+NI1I2iYY/rf/uzGxubR7jJpHWIHErBxC+x+A35HYyyz+RxUcfgK5KHTWlb3PTtPXb6B9qrYF3z4VNCR6ka9fzVvhZx6H5eGHpZgRH2tuHE5jrRULXSpF1eW7GF59ziwEnxkTW88cwIh+DZa7EITh8dTyUH2QNRyNzviaX+TumfxVB+4RNsLfEPrVf7KZ76LBfeS1CSNSLI7MOwTo/r1rSgzY=;31:cosWYRskZtpIKu5nfKiyc26HAQZj/uDMX4UTf4bG8H38yGjdVdAnvYp8pgdO2yPm4l/do/4k0RYKXU9qUVGdWWTMb1lZQwBPVQjPiKx8jiHQIDvbfDFmLy18tlpX+xwMNFQhVXJKx1O1q+1vhUrMVRkDaNJHTJ7mZCBDuSKpnmL6Ch7WBwHvrHgcY4ET/kkUKJwnxHETwNNyaoMB/y487nuvJgbQgqi29hSaVt7xnegTYkJ7lzvWj9pLK09jWLHuM/nYFDFGZyC9o5Wwhzc77LK+OxJ+4GuNKIOUHg3Bmkc=
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;20:Hp1nkGPhL0wF4/4UaO3kr3RJwHJR2zGi+TkmYxSOzFJIaf7Srl8Vr6PqAoOVvFKdCjOJDsMA3ZcO7NWnHWTHPAq/1sWwowM/nZ9i2duw2EaNRtQmST4/exltXmVJneO18GnOu9yWumRdLLGcANedIdMPpw/tK1j3HdaAmPN6xrhwOCJ1jYfgR26wRMHOiXssqUpkUutJFMD/ZhXo6DMaV5sLRLl85Eif/7UHGUpU6vguBqY98p/zAlJPN6KvjvaOPZOAuLqzaT4sg8fLgGOEXZ1er7hP9BVBh5r23r/FLzOOIsUfNZ7yUxFG/v6FjsVNDgNRlPMR6MIa1H2cKmEqHDYkxRLUjp3xxwvCQdNymHkDgCV0uYkNc+Him6TLwcnFJ6+KCt61bNvgR3R8+GWIA6gu/gUx2dfwfZc1DjzouT5ZgB5tUnB/gSpaGOzP/5iYeAMacO6giCW/MfeJvDSoSCU4wZntk2TAvacDkUb8W7Qj6gFMf3GtV8U4+voVlZj5eGiCsix1C2lI9b0jcuopHAffACMwXJrXwV6+RUDLCSLd3kV1wUcLIHMWeNYdbam214UHjfr5W80Ffl1ueVEaTRRNmMxt64P8YRF1lThuD8I=
+X-Microsoft-Antispam-PRVS: 
+	<CY1PR02MB1689699F750BAC25108B18FFA6BC0@CY1PR02MB1689.namprd02.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;4:O42z6sohPCSfxdP3jc2Evb/thY7Idt4TFdZBjaNTqVFSpZ7avQzvey4JGl9wbfk2X6AtPkDVXwsFF9G7fsTGaO1CVHzuGvo7I90R0Akkj8Esk+fvYtDnf17zQvIYEu1wFlfVjTfSauyAf7b/QwN8uVwK500reIGGY2eLYfcOQUevlJoILGHE6GZu3t1aYF5fJtOW/16yfreuuj0rQMmb4EgVZs9NKrrL7JIAFYsChFaQA+kq57QIbaz5t08VXTUFSQ+fBv2gjTg6z2JRqcTalF01z/XmaFGR4xU1w+u9y3Dbx0IsPsGz2AId0NvzTzn5KWOdS7a8MohBmdMbRVUSTNqnhz6+2qb26i2W/J1Y1r9GzBKbn8Nsgi0L+LY8KnJxBUd+QzfH5HD5E5yr/8xgwVJIgXVRrjjW+SGO6dM9eIFg2CRkkr7mcNhtKls8jhkGQ6p4T2qDVoTw7/4SjKDCvKKoTK4IhHsRDj06KHLoXEc9BbqSbTVSbcnmihv3m/iGFuKs0yz1MxCsrGsFP2svyZvPq1xOKEqWdtkUTIiH6548847byEX4vu+OPz8rY27sPViMjkwA5yW5xSYJseV7JL+axoT6X/oKrUitSpOpvBw=
+X-Forefront-PRVS: 0126A32F74
+X-Microsoft-Exchange-Diagnostics: 
+	=?us-ascii?Q?1;CY1PR02MB1689;23:5P+wH3PBp0x2U3DH/1QmJwIAvtEHqv7XmHs1YMKfP?=
+ =?us-ascii?Q?8a/SEfrRbjQVL5LBo7Vh8pmNlhVHNkaCX7NQhUtCrlWB13NuWow7dXBteEz0?=
+ =?us-ascii?Q?hcKexy7Si/Srj+4Y52yDOiV/78GhD4eJwyFXCFk42zbLyXCTG9Vnp4ocxMvk?=
+ =?us-ascii?Q?c8tGu8cRXLJ0qb104qc3/ECltGrJv/obopfR2NZ+aILOqFal/5YJNSInSs7N?=
+ =?us-ascii?Q?kjzsWxLPx5Z+sf1NTTol5D6adZpMcZ33MCbG3Gcz3OQGdLI6cSTTqJIpzn6x?=
+ =?us-ascii?Q?Bu/5U/sSe4PBSzb16JU6sBPkduRVqvoWf07qiqJgoKEgk1blKErczMBW+Wvc?=
+ =?us-ascii?Q?QW4896INegKDC+4FYlKCGlDuke33S9kQ5YULr1sbEBkDnr3W10UUuIE2Cdu3?=
+ =?us-ascii?Q?dIHbtEo1wQTDepM8mhyaF1ZnqJHm0g5Bjrw84eQShxZillAR/nxXvbhPPN2/?=
+ =?us-ascii?Q?RSuWnlQSkEmQpwD0h6A3IY8GbEPMIJ7WqdPU0cjeKxs2q4pMCHkVLI5Qt74W?=
+ =?us-ascii?Q?aEDctcCaaam/Trh7jiYFqYaeFLDP2bSO8IT23FPJB1FldhNY6vM06o2bF7jc?=
+ =?us-ascii?Q?/AUUVYhqedREJkux3p6fyDzZTX6cMjtS2OdH6/YiHus/LXVCbW/9OjIP5rBs?=
+ =?us-ascii?Q?+935v4KE+sI6MOjlr+gge1FIfVGBCGNlquWiNwlGcH7fKIc6CZEuVpdYTWUR?=
+ =?us-ascii?Q?oN2M3WkmQzpbUZnO8I3eZl5AKTWwMwMgiAjlkuhxxsiIhUVaVFfCiOMN7ps1?=
+ =?us-ascii?Q?l2qJ4bc26HmU1YpTGT58uwfy88/O404qqnQdSQqcTXzpl4OL1zXf7BhlXeua?=
+ =?us-ascii?Q?V2VNCMmGT5IrYXZAChEe1TE+M9GoESwKWyPqnX3wWHwWEJB3UPXkDi0krYfk?=
+ =?us-ascii?Q?kSqGiM8+ERgkiQCLf9AJ1wXwZbXNFsiV86+Dsp1cS55zXlNeXI1EFn/VxmFm?=
+ =?us-ascii?Q?Gz8eyJeCfBz42X+StIhLRl1idZbLJBIHAuE7O8Gf3XRTSf/zoqrnspQ7Y520?=
+ =?us-ascii?Q?Ou1E6SSOvJia0WSaHKJGh6739KRvHruVu5U+ROyRYNSq4kplk/30R3FbjusY?=
+ =?us-ascii?Q?7jCqooUUlaLTOEIeV4av5czNuL8/RWUBYw4h/tPoQqOmkSoQG2VrIiWMsuv4?=
+ =?us-ascii?Q?OBfciWKP4yXxKh/Kekz9q5F6i/IrZN3XKcBP0KXMsJKjg2ufG6SDWLX4brn/?=
+ =?us-ascii?Q?Bg86s0pjyHQMnCwEMMiJtt0UaW7E73VwChNhIpjXgUysca7d2+0duEfLav1O?=
+ =?us-ascii?Q?8uuaIxq+0yWx7qYyS1uy5q3N1DpodY0PPD7edGqZIV6xIGz82dgVGU1bAEjo?=
+ =?us-ascii?Q?qUFgdID59Q00w3jF3x+YtamB3+/pjpWzbvgjdnRCA92L650cfwL1PXapsXxb?=
+ =?us-ascii?Q?9EJIStSpoI5Ma1tkwbp+o1qcYTeRzRxD32tcD4A5uiksTothO1weND0MWYLe?=
+ =?us-ascii?Q?bS6krjfEky0i9FSAT0POvzUnzQ+H47upNb/Wo7YrUJtpk162zXhesrKRf1Gl?=
+ =?us-ascii?Q?r3E+RjEaVPW4sezBAgbWzLE2N5tFMbQVGp5IRBCp54uIR6Ay5COU2Do?=
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;6:E+Fud9mLUau4DqBZOVFjWf6QJv+nbHEYBRYFHt/YMwrtzEIlHViK2bfJlFoEzrANe9u3yANJegq5uJKobDRgEG28uibZj3tA4RepwNTDzCd8XUXgWy/ie+0Ta5x2QE9p9/JKcvQ0Ye9ZCNKl+YOL/b5j/jdCpWAgMgBRcJV0nLn2RIMtq3OipoDr7YjQXEQ283xU4G0hg8tUk2CdhLM1jWj3qNrvQ31XZYcBb3lDRoCSHAp+WZRUtiMCc+PkeQSnuxVpS7U0NP28gtMrVykJVE7lSW7mAN1it+bnorFdb1uHnDIzEY1XJmIN7u9GM86F81xJroAc3V5m0KCIGgdYefwtT5btYzdqrs9e8uSBQbc=;5:NyGaXfBiD9bCU56PSSY65xMzWQi9289LtS+Xhsn85QbFwRm1Eopd5VfkhavcXhf/rXpbP9CtS56SJx2G6JkgePQDoiX7tTzJJMJlZWmcAQ62HIALMOywIRWuqllV6XixKH/fQbqZxCT1Pu0eDXPNj+T8cxcf4avXdHOr+/RJs4I=;24:xKUUBuNjJPTwuDEZ8cJQW0261M7an93oJ35Xaolasd9QTFn4iicPlQir98aB0tchytSxVo75eBwJBsEHiqsY7Rtr5BZoxzv9nbhvrSCAtLg=
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 
+	1;CY1PR02MB1689;7:B1fOEiLPzy/wR+mjhMARRVoqUPhhZlMFuhELU6eYbkToqtxho1fQKCGnxs8o12MCi70hUBOSgFImWOPFqrEkTzOb9c2JIGeWHcyOBPeaCBrIh3WEzeqJC88OKwwNYpXrQ+gjM728mL/QD06kUNACiMQcMFSYD/uYVFfefvjwqe3FEaZNGVc5Ia6EsYwOKPt7PUQzyouZW1LRau7Dtkz26YoqrjwV3uNJtX3bMWH2Cku5Db48+4H16G3QlnqX9KKfXkqrlDcIifjhSnHFIcMPUpSBHslzclTt+hiLMzdQONUHc5Dc+yIMbfa2RLmxAXZIhXqvzLgp+6zYrFHoZTPdHUj+VotA0WQnKMoOrdxQkn0=
+X-OriginatorOrg: lists.fsu.edu
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2016 14:40:05.4708
+ (UTC)
+X-MS-Exchange-CrossTenant-Id: a36450eb-db06-42a7-8d1b-026719f701e3
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a36450eb-db06-42a7-8d1b-026719f701e3;Ip=[146.201.107.138];Helo=[lists.fsu.edu]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1689
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.4.3 (smtpin.cs.fsu.edu [128.186.120.196]); Mon, 14 Nov 2016 09:40:20 -0500 (EST)
+
+--===============0706941216276536161==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_CY1PR0201MB058740F2FF5D8CC311B631E88ABC0CY1PR0201MB0587_"
+
+--_000_CY1PR0201MB058740F2FF5D8CC311B631E88ABC0CY1PR0201MB0587_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+All-
+
+Every once in a while, a few network printers in my building will spit out =
+pages with a few lines random ASCII/courier text at the top of the page. Di=
+sconnect the network cable, and the problem reliably goes away. To my knowl=
+edge, the biggest offenders are an Epson Expression XP-830 and an HP Office=
+Jet Pro 8600.
+
+Has anyone ever had this happen before? Short of running Wireshark nonstop =
+until I see the traffic, any thoughts on what causes this?
+
+Thanks!
+
+Matt Hohmeister, M.S.
+Systems and Network Administrator
+Department of Psychology
+Florida State University
+PO Box 3064301
+Tallahassee, FL 32306-4301
+Phone: +1 850 645 1902
+Fax: +1 850 644 7739
+
+
+--_000_CY1PR0201MB058740F2FF5D8CC311B631E88ABC0CY1PR0201MB0587_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">All&#8212;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Every once in a while, a few network printers in my =
+building will spit out pages with a few lines random ASCII/courier text at =
+the top of the page. Disconnect the network cable, and the problem reliably=
+ goes away. To my knowledge, the biggest
+ offenders are an Epson Expression XP-830 and an HP OfficeJet Pro 8600.<o:p=
+></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Has anyone ever had this happen before? Short of run=
+ning Wireshark nonstop until I see the traffic, any thoughts on what causes=
+ this?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks!<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Matt Hohmeister, M.S.<o:p></o:p></p>
+<p class=3D"MsoNormal">Systems and Network Administrator<o:p></o:p></p>
+<p class=3D"MsoNormal">Department of Psychology<o:p></o:p></p>
+<p class=3D"MsoNormal">Florida State University<o:p></o:p></p>
+<p class=3D"MsoNormal">PO Box 3064301<o:p></o:p></p>
+<p class=3D"MsoNormal">Tallahassee, FL 32306-4301<o:p></o:p></p>
+<p class=3D"MsoNormal">Phone: &#43;1 850 645 1902<o:p></o:p></p>
+<p class=3D"MsoNormal">Fax: &#43;1 850 644 7739<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_CY1PR0201MB058740F2FF5D8CC311B631E88ABC0CY1PR0201MB0587_--
+
+--===============0706941216276536161==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Nolenet maillist  -  Nolenet@lists.fsu.edu
+https://lists.fsu.edu/mailman/listinfo/nolenet
+
+--===============0706941216276536161==--
